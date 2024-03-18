@@ -20,6 +20,7 @@ import java.util.List;
 @RequestMapping("/culture/exhibition")
 @RequiredArgsConstructor
 public class ExhibitionController extends BaseController {
+
     private final ExhibitionService exhibitionService;
 
     // 获取所有非遗展览列表
@@ -31,8 +32,8 @@ public class ExhibitionController extends BaseController {
     }
 
     // 根据展览ID获取展览信息
-    @GetMapping("/detail/{exhibitionId}")
-    public AjaxResult getExhibitionById(@PathVariable Long exhibitionId) {
+    @GetMapping("/detail")
+    public AjaxResult getExhibitionById(@RequestParam Long exhibitionId) {
         return AjaxResult.success(exhibitionService.getExhibitionById(exhibitionId));
     }
 
@@ -43,14 +44,14 @@ public class ExhibitionController extends BaseController {
     }
 
     // 更新非遗展览信息
-    @PutMapping("/update")
+    @PostMapping("/update")
     public AjaxResult updateExhibition(@RequestBody Exhibition exhibition) {
         return toAjax(exhibitionService.updateExhibition(exhibition));
     }
 
     // 删除非遗展览
-    @DeleteMapping("/delete/{exhibitionId}")
-    public AjaxResult deleteExhibition(@PathVariable Long exhibitionId) {
+    @GetMapping("/delete")
+    public AjaxResult deleteExhibition(@RequestParam Long exhibitionId) {
         return toAjax(exhibitionService.deleteExhibition(exhibitionId));
     }
 }

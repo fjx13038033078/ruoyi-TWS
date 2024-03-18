@@ -32,8 +32,8 @@ public class ExhibitionRegistrationController extends BaseController {
     }
 
     // 根据报名ID获取展览报名信息
-    @GetMapping("/detail/{registrationId}")
-    public AjaxResult getExhibitionRegistrationById(@PathVariable Long registrationId) {
+    @GetMapping("/detail")
+    public AjaxResult getExhibitionRegistrationById(@RequestParam Long registrationId) {
         return AjaxResult.success(exhibitionRegistrationService.getExhibitionRegistrationById(registrationId));
     }
 
@@ -44,8 +44,8 @@ public class ExhibitionRegistrationController extends BaseController {
     }
 
     // 删除非遗展览报名
-    @DeleteMapping("/delete/{registrationId}")
-    public AjaxResult deleteExhibitionRegistration(@PathVariable Long registrationId) {
+    @GetMapping("/delete")
+    public AjaxResult deleteExhibitionRegistration(@RequestParam Long registrationId) {
         return toAjax(exhibitionRegistrationService.deleteExhibitionRegistration(registrationId));
     }
 }

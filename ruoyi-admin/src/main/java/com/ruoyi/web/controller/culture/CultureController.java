@@ -44,7 +44,7 @@ public class CultureController extends BaseController {
     }
 
     // 更新非遗文化信息
-    @PutMapping("/update")
+    @PostMapping("/update")
     public AjaxResult updateCulture(@RequestBody Culture culture) {
         return toAjax(cultureService.updateCulture(culture));
     }
