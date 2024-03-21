@@ -1,6 +1,7 @@
 package com.ruoyi.culture.service.impl;
 
 import com.ruoyi.culture.domain.Exhibition;
+import com.ruoyi.culture.mapper.CultureMapper;
 import com.ruoyi.culture.mapper.ExhibitionMapper;
 import com.ruoyi.culture.service.ExhibitionService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ExhibitionServiceImpl implements ExhibitionService {
+
     private final ExhibitionMapper exhibitionMapper;
+
+    private final CultureMapper cultureMapper;
 
     /**
      * 获取所有非遗展览
@@ -28,7 +32,9 @@ public class ExhibitionServiceImpl implements ExhibitionService {
      */
     @Override
     public List<Exhibition> getAllExhibitions() {
-        return exhibitionMapper.getAllExhibitions();
+        List<Exhibition> allExhibitions = exhibitionMapper.getAllExhibitions();
+        fillCultureName(allExhibitions);
+        return allExhibitions;
     }
 
     /**
@@ -76,5 +82,18 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     public boolean deleteExhibition(Long exhibitionId) {
         int rows = exhibitionMapper.deleteExhibition(exhibitionId);
         return rows > 0;
+    }
+
+    /**
+     * 填充 exhibition 中非遗名称
+     *
+     * @param exhibitions
+     */
+    private void fillCultureName(List<Exhibition> exhibitions) {
+        for (Exhibition exhibition : exhibitions) {
+            Long cultureId = exhibition.getCultureId();
+            String cultureName = cultureMapper.getCultureById(cultureId).getCultureName();
+            exhibition.setCultureName(cultureName);
+        }
     }
 }

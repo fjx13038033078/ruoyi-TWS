@@ -3,7 +3,7 @@
     <!-- 非遗文化管理页面内容 -->
     <div>
       <!-- 添加非遗文化按钮 -->
-      <el-row :gutter="20" class="mb-20" style="margin-bottom: 20px;">
+      <el-row :gutter="20" class="mb-20" style="margin-bottom: 10px;margin-left: 10px;margin-top: 10px">
         <el-col>
           <el-button type="primary" @click="handleAddCulture">新增非遗文化</el-button>
         </el-col>
@@ -13,8 +13,16 @@
       <el-table :data="cultureList" v-loading="loading" style="width: 100%" border>
         <el-table-column label="非遗ID" prop="cultureId" align="center"></el-table-column>
         <el-table-column label="非遗名称" prop="cultureName" align="center"></el-table-column>
-        <el-table-column label="非遗类型" prop="cultureType" align="center"></el-table-column>
-        <el-table-column label="非遗级别" prop="cultureLevel" align="center"></el-table-column>
+        <el-table-column label="非遗类型" prop="cultureType" align="center">
+          <template slot-scope="scope">
+            {{ getCultureTypeLabel(scope.row.cultureType) }}
+          </template>
+        </el-table-column>
+        <el-table-column label="非遗级别" prop="cultureLevel" align="center">
+          <template slot-scope="scope">
+            {{ getCultureLevelLabel(scope.row.cultureLevel) }}
+          </template>
+        </el-table-column>
         <el-table-column label="非遗发源地" prop="cultureBirthplace" align="center"></el-table-column>
         <el-table-column label="非遗传承人" prop="cultureHeir" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="280px">
@@ -45,10 +53,22 @@
             <el-input v-model="cultureForm.cultureName" :disabled="isReadOnly"></el-input>
           </el-form-item>
           <el-form-item label="非遗类型">
-            <el-input v-model="cultureForm.cultureType" :disabled="isReadOnly"></el-input>
+            <el-select v-model="cultureForm.cultureType" :disabled="isReadOnly">
+              <el-option label="传统舞蹈" :value="1"></el-option>
+              <el-option label="传统戏剧" :value="2"></el-option>
+              <el-option label="传统音乐" :value="3"></el-option>
+              <el-option label="传统美术" :value="4"></el-option>
+              <el-option label="传统医药" :value="5"></el-option>
+              <el-option label="传统技艺" :value="6"></el-option>
+              <el-option label="其他" :value="0"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="非遗级别">
-            <el-input v-model="cultureForm.cultureLevel" :disabled="isReadOnly"></el-input>
+            <el-select v-model="cultureForm.cultureLevel" :disabled="isReadOnly">
+              <el-option label="国家级" :value="1"></el-option>
+              <el-option label="省级" :value="2"></el-option>
+              <el-option label="其他" :value="0"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="非遗发源地">
             <el-input v-model="cultureForm.cultureBirthplace" :disabled="isReadOnly"></el-input>
@@ -98,6 +118,47 @@ export default {
       },
     }
   },
+  computed: {
+    // 将非遗类型数字值转换为汉字
+    getCultureTypeLabel() {
+      return function (cultureType) {
+        switch (cultureType) {
+          case 0:
+            return '其他';
+          case 1:
+            return '传统舞蹈';
+          case 2:
+            return '传统戏剧';
+          case 3:
+            return '传统音乐';
+          case 4:
+            return '传统美术';
+          case 5:
+            return '传统医药';
+          case 6:
+            return '传统技艺';
+          default:
+            return '未知';
+        }
+      }
+    },
+    // 将非遗级别数字值转换为汉字
+    getCultureLevelLabel() {
+      return function (cultureLevel) {
+        switch (cultureLevel) {
+          case 0:
+            return '其他';
+          case 1:
+            return '国际级';
+          case 2:
+            return '省级';
+          default:
+            return '未知';
+        }
+      }
+    },
+  },
+
   created() {
     this.fetchCultures()
   },
@@ -110,6 +171,8 @@ export default {
         this.loading = false
       })
     },
+
+
     handleView(row) {
       this.dialogTitle = '查看非遗文化'
       this.dialogButtonText = '关闭'

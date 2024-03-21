@@ -39,12 +39,12 @@ public class Culture implements Serializable {
     private String cultureBirthplace;
 
     /**
-     * 非遗类型
+     * 非遗类型：0其他，1传统舞蹈，2传统戏剧，3传统音乐，4传统美术，5传统医药，6传统技艺
      */
     private Integer cultureType;
 
     /**
-     * 非遗级别
+     * 非遗级别：0其他，1国家级，2省级
      */
     private Integer cultureLevel;
 

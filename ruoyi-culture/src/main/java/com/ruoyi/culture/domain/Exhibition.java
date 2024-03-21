@@ -37,6 +37,11 @@ public class Exhibition implements Serializable {
     private Long cultureId;
 
     /**
+     * 关联的非遗名称
+     */
+    private String cultureName;
+
+    /**
      * 展览名称
      */
     private String exhibitionName;

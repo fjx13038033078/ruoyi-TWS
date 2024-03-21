@@ -1,12 +1,21 @@
 package com.ruoyi.culture.service.impl;
 
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.culture.domain.Culture;
+import com.ruoyi.culture.domain.Exhibition;
 import com.ruoyi.culture.domain.ExhibitionRegistration;
+import com.ruoyi.culture.mapper.CultureMapper;
+import com.ruoyi.culture.mapper.ExhibitionMapper;
 import com.ruoyi.culture.mapper.ExhibitionRegistrationMapper;
 import com.ruoyi.culture.service.ExhibitionRegistrationService;
+import com.ruoyi.system.service.ISysRoleService;
+import com.ruoyi.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -19,7 +28,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistrationService {
+
     private final ExhibitionRegistrationMapper exhibitionRegistrationMapper;
+
+    private final ISysRoleService iSysRoleService;
+
+    private final ISysUserService iSysUserService;
+
+    private final ExhibitionMapper exhibitionMapper;
 
     /**
      * 获取所有非遗展览报名信息
@@ -28,7 +44,9 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
      */
     @Override
     public List<ExhibitionRegistration> getAllExhibitionRegistrations() {
-        return exhibitionRegistrationMapper.getAllExhibitionRegistrations();
+        List<ExhibitionRegistration> allExhibitionRegistrations = exhibitionRegistrationMapper.getAllExhibitionRegistrations();
+        fillCultureAndExhibitionName(allExhibitionRegistrations);
+        return allExhibitionRegistrations;
     }
 
     /**
@@ -50,6 +68,8 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
      */
     @Override
     public boolean addExhibitionRegistration(ExhibitionRegistration registration) {
+        registration.setUserId(SecurityUtils.getUserId());
+        registration.setRegistrationTime(LocalDateTime.now());
         int rows = exhibitionRegistrationMapper.addExhibitionRegistration(registration);
         return rows > 0;
     }
@@ -64,5 +84,25 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
     public boolean deleteExhibitionRegistration(Long registrationId) {
         int rows = exhibitionRegistrationMapper.deleteExhibitionRegistration(registrationId);
         return rows > 0;
+    }
+
+    /**
+     * 填充预约记录中用户和展览名称
+     *
+     * @param exhibitionRegistrations 待填充的预约记录列表
+     */
+    private void fillCultureAndExhibitionName(List<ExhibitionRegistration> exhibitionRegistrations) {
+        for (ExhibitionRegistration exhibitionRegistration : exhibitionRegistrations) {
+            // 获取用户名称
+            Long userId = exhibitionRegistration.getUserId();
+            SysUser user = iSysUserService.selectUserById(userId);
+            if (user != null) {
+                exhibitionRegistration.setUserName(user.getNickName());
+            }
+            //获取展览名称
+            Long exhibitionId = exhibitionRegistration.getExhibitionId();
+            String exhibitionName = exhibitionMapper.getExhibitionById(exhibitionId).getExhibitionName();
+            exhibitionRegistration.setExhibitionName(exhibitionName);
+        }
     }
 }

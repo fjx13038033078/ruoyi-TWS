@@ -34,9 +34,19 @@ public class ExhibitionRegistration implements Serializable {
     private Long userId;
 
     /**
+     * 用户姓名
+     */
+    private String userName;
+
+    /**
      * 展览ID
      */
     private Long exhibitionId;
+
+    /**
+     * 展览名称
+     */
+    private String exhibitionName;
 
     /**
      * 报名时间，默认为当前时间
