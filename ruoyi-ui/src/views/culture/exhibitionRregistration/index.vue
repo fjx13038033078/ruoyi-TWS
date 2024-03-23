@@ -11,12 +11,12 @@
           <el-table-column label="预约时间" prop="registrationTime" align="center"></el-table-column>
           <el-table-column label="预约状态" prop="registrationStatus" align="center">
             <template slot-scope="scope">
-              {{ scope.row.registrationStatus === 0 ? '预约' : '取消' }}
+              {{ scope.row.registrationStatus === 0 ? '已预约' : '已取消' }}
             </template>
           </el-table-column>
           <el-table-column label="操作" align="center" width="160px">
             <template slot-scope="scope">
-              <el-button type="danger" size="mini" @click="cancelReservation(scope.row)">取消预约</el-button>
+              <el-button type="text" icon="el-icon-remove-outline" size="mini" @click="cancelReservation(scope.row)">取消预约</el-button>
             </template>
           </el-table-column>
         </el-table>

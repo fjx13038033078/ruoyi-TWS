@@ -5,7 +5,11 @@
       <!-- 添加非遗文化按钮 -->
       <el-row :gutter="20" class="mb-20" style="margin-bottom: 10px;margin-left: 10px;margin-top: 10px">
         <el-col>
-          <el-button type="primary" @click="handleAddCulture">新增非遗文化</el-button>
+          <el-button type="primary"
+                     plain
+                     icon="el-icon-plus"
+                     size="medium"
+                     @click="handleAddCulture">新增非遗文化</el-button>
         </el-col>
       </el-row>
 
@@ -25,11 +29,11 @@
         </el-table-column>
         <el-table-column label="非遗发源地" prop="cultureBirthplace" align="center"></el-table-column>
         <el-table-column label="非遗传承人" prop="cultureHeir" align="center"></el-table-column>
-        <el-table-column label="操作" align="center" width="280px">
+        <el-table-column label="操作" align="center" width="210px">
           <template slot-scope="scope">
-            <el-button type="info" size="mini" @click="handleView(scope.row)">查看</el-button>
-            <el-button type="primary" size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button type="text" icon="el-icon-view" size="mini" @click="handleView(scope.row)">查看</el-button>
+            <el-button type="text" icon="el-icon-edit" size="mini" @click="handleEdit(scope.row)">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" size="mini" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

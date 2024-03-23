@@ -5,7 +5,11 @@
       <!-- 添加非遗展览按钮 -->
       <el-row :gutter="20" class="mb-20" style="margin-bottom: 10px;margin-left: 10px;margin-top: 10px">
         <el-col>
-          <el-button type="primary" @click="handleAddExhibition">新增非遗展览</el-button>
+          <el-button type="primary"
+                     plain
+                     icon="el-icon-plus"
+                     size="medium"
+                     @click="handleAddExhibition">新增非遗展览</el-button>
         </el-col>
       </el-row>
 
@@ -18,10 +22,10 @@
         <el-table-column label="展览地点" prop="exhibitionLocation" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="280px">
           <template slot-scope="scope">
-            <el-button type="success" size="mini" @click="handleReservation(scope.row)">预约</el-button>
-            <el-button type="info" size="mini" @click="handleView(scope.row)">查看</el-button>
-            <el-button type="primary" size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button type="text" icon="el-icon-finished" size="mini" @click="handleReservation(scope.row)">预约</el-button>
+            <el-button type="text" icon="el-icon-view" size="mini" @click="handleView(scope.row)">查看</el-button>
+            <el-button type="text" icon="el-icon-edit" size="mini" @click="handleEdit(scope.row)">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" size="mini" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
