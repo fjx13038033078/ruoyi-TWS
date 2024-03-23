@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="curtain">
-      <h1 data-heading="场">羽毛球场预约管理系统</h1>
+      <h1 data-heading="化">非遗文化展览预约管理系统</h1>
     </div>
     <div>
       <el-carousel :interval="4000" type="card" height="300px">

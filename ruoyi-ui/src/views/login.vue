@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">羽毛球场预约管理系统</h3>
+      <h3 class="title">非遗文化展览预约管理系统</h3>
       <el-form-item prop="username">
         <el-input
           v-model="loginForm.username"
@@ -172,15 +172,49 @@ export default {
 
 .login-form {
   border-radius: 6px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.8);
   width: 400px;
   padding: 25px 25px 5px 25px;
   .el-input {
     height: 38px;
+
+    .el-input__inner {
+      background-color: rgba(255, 255, 255, 0.5); /* 输入框的背景色透明度 */
+    }
+
     input {
       height: 38px;
     }
   }
+
+  .el-button {
+    background-color: rgba(76, 175, 80, 0.7);
+    //background-color: #4CAF50; /* 修改按钮背景色 */
+    color: white; /* 修改按钮文字颜色 */
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .el-button:hover {
+    background-color: rgba(76, 175, 80, 0.9);
+    //background-color: #45a049; /* 按钮悬停时的背景色 */
+  }
+
+  .el-button:active {
+    background-color: rgba(76, 175, 80, 0.4);
+    //background-color: #367c39; /* 按钮按下时的背景色 */
+  }
+
+  /* 修改标题字体为楷体且加粗 */
+  .title {
+    font-family: ssh;
+    font-weight: bold;
+    font-size: 23px;
+  }
+
   .input-icon {
     height: 39px;
     width: 14px;
