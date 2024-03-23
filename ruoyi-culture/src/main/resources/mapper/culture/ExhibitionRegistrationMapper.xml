@@ -8,6 +8,7 @@
         <id property="registrationId" column="registration_id"/>
         <result property="userId" column="user_id"/>
         <result property="exhibitionId" column="exhibition_id"/>
+        <result property="registrationStatus" column="registration_status"/>
         <result property="registrationTime" column="registration_time"/>
     </resultMap>
 
@@ -23,13 +24,22 @@
 
     <!-- 添加非遗展览报名信息 -->
     <insert id="addExhibitionRegistration" parameterType="ExhibitionRegistration">
-        INSERT INTO ich_exhibition_registration (user_id, exhibition_id, registration_time)
-        VALUES (#{userId}, #{exhibitionId}, #{registrationTime})
+        INSERT INTO ich_exhibition_registration (user_id, exhibition_id, registration_status, registration_time)
+        VALUES (#{userId}, #{exhibitionId}, #{registrationStatus}, #{registrationTime})
     </insert>
 
     <!-- 删除非遗展览报名信息 -->
     <delete id="deleteExhibitionRegistration" parameterType="Long">
         DELETE FROM ich_exhibition_registration WHERE registration_id = #{registrationId}
     </delete>
+
+    <!-- 更新非遗展览预约信息 -->
+    <update id="updateExhibitionRegistration" parameterType="ExhibitionRegistration">
+        UPDATE ich_exhibition_registration SET user_id = #{userId},
+                                    exhibition_id = #{exhibitionId},
+                                    registration_status = #{registrationStatus},
+                                    registration_time = #{registrationTime}
+        WHERE registration_id = #{registrationId}
+    </update>
 
 </mapper>

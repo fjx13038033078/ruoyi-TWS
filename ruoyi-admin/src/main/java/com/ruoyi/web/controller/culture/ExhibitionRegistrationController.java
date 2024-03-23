@@ -48,4 +48,11 @@ public class ExhibitionRegistrationController extends BaseController {
     public AjaxResult deleteExhibitionRegistration(@RequestParam Long registrationId) {
         return toAjax(exhibitionRegistrationService.deleteExhibitionRegistration(registrationId));
     }
+
+    //取消预约
+    @GetMapping("/cancel")
+    public AjaxResult cancelExhibitionReservation(@RequestParam Long registrationId){
+        exhibitionRegistrationService.cancelExhibitionReservation(registrationId);
+        return success();
+    }
 }

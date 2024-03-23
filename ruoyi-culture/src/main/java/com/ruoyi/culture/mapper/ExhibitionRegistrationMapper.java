@@ -44,4 +44,12 @@ public interface ExhibitionRegistrationMapper {
      * @return 删除成功返回影响的行数，否则返回0
      */
     int deleteExhibitionRegistration(Long registrationId);
+
+    /**
+     * 更新预约信息
+     *
+     * @param exhibitionRegistration 待更新的非遗展览报名信息
+     * @return
+     */
+    int updateExhibitionRegistration(ExhibitionRegistration exhibitionRegistration);
 }

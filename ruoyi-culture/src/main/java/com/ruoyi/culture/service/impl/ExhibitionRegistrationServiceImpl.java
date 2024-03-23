@@ -70,6 +70,7 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
     public boolean addExhibitionRegistration(ExhibitionRegistration registration) {
         registration.setUserId(SecurityUtils.getUserId());
         registration.setRegistrationTime(LocalDateTime.now());
+        registration.setRegistrationStatus(0);
         int rows = exhibitionRegistrationMapper.addExhibitionRegistration(registration);
         return rows > 0;
     }
@@ -103,6 +104,22 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
             Long exhibitionId = exhibitionRegistration.getExhibitionId();
             String exhibitionName = exhibitionMapper.getExhibitionById(exhibitionId).getExhibitionName();
             exhibitionRegistration.setExhibitionName(exhibitionName);
+        }
+    }
+
+    /**
+     * 取消预约
+     *
+     * @param reservationId 待取消的非遗展览报名ID
+     */
+    public void cancelExhibitionReservation(Long reservationId) {
+        ExhibitionRegistration exhibitionRegistration = exhibitionRegistrationMapper.getExhibitionRegistrationById(reservationId);
+        log.info("exhibitionRegistration: " + exhibitionRegistration);
+        if (exhibitionRegistration != null && exhibitionRegistration.getRegistrationStatus() == 1) {
+            throw new RuntimeException("已经是取消状态，请勿重复取消");
+        } else { // 如果预约状态为预约
+            exhibitionRegistration.setRegistrationStatus(1); // 设置预约状态为取消
+            exhibitionRegistrationMapper.updateExhibitionRegistration(exhibitionRegistration); // 更新预约信息
         }
     }
 }

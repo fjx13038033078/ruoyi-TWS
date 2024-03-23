@@ -42,4 +42,11 @@ public interface ExhibitionRegistrationService {
      * @return 删除成功返回 true，否则返回 false
      */
     boolean deleteExhibitionRegistration(Long registrationId);
+
+    /**
+     * 取消预约
+     *
+     * @param registrationId 待取消的非遗展览报名ID
+     */
+    public void cancelExhibitionReservation(Long registrationId);
 }

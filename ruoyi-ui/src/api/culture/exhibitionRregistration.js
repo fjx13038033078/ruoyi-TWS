@@ -35,3 +35,12 @@ export function deleteExhibitionRegistration(registrationId) {
     params: { registrationId }
   })
 }
+
+// 删除非遗展览报名
+export function cancelExhibitionReservation(registrationId) {
+  return request({
+    url: '/culture/exhibition/registration/cancel',
+    method: 'get',
+    params: { registrationId }
+  })
+}

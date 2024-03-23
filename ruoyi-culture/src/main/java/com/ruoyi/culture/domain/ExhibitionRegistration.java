@@ -3,6 +3,7 @@ package com.ruoyi.culture.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -51,7 +52,13 @@ public class ExhibitionRegistration implements Serializable {
     /**
      * 报名时间，默认为当前时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime registrationTime;
+
+    /**
+     * 预约状态，0预约，1取消
+     */
+    private Integer registrationStatus;
 
     /**
      * 序列化版本UID
