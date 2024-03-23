@@ -51,4 +51,12 @@ public interface ExhibitionMapper {
      * @return 删除成功返回影响的行数，否则返回0
      */
     int deleteExhibition(Long exhibitionId);
+
+    /**
+     * 根据非遗ID统计展览个数
+     *
+     * @param cultureId 非遗ID
+     * @return 展览个数
+     */
+    int countByCultureId(Long cultureId);
 }

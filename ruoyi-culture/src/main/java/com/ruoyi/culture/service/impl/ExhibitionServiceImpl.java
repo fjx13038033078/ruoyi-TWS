@@ -1,5 +1,6 @@
 package com.ruoyi.culture.service.impl;
 
+import com.ruoyi.culture.domain.Culture;
 import com.ruoyi.culture.domain.Exhibition;
 import com.ruoyi.culture.mapper.CultureMapper;
 import com.ruoyi.culture.mapper.ExhibitionMapper;
@@ -8,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 非遗展览管理 Service 实现类
@@ -96,4 +99,19 @@ public class ExhibitionServiceImpl implements ExhibitionService {
             exhibition.setCultureName(cultureName);
         }
     }
+
+    @Override
+    public Map<String, Integer> getCultureExhibitionCountMap() {
+        // 获取所有非遗
+        List<Culture> allCultures = cultureMapper.getAllCultures();
+        // 获取每个非遗对应的非遗展览数量
+        Map<String, Integer> cultureExhibitionCountMap = new HashMap<>();
+        for (Culture culture : allCultures) {
+            Long cultureId = culture.getCultureId();
+            int exhibitionCount = exhibitionMapper.countByCultureId(cultureId);
+            cultureExhibitionCountMap.put(culture.getCultureName(), exhibitionCount);
+        }
+        return cultureExhibitionCountMap;
+    }
+
 }

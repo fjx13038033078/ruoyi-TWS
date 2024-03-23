@@ -54,4 +54,10 @@ public class ExhibitionController extends BaseController {
     public AjaxResult deleteExhibition(@RequestParam Long exhibitionId) {
         return toAjax(exhibitionService.deleteExhibition(exhibitionId));
     }
+
+    // 查非遗与非遗展览数量的映射
+    @GetMapping(value = "/getMap")
+    public AjaxResult getCultureExhibitionCountMap(){
+        return success(exhibitionService.getCultureExhibitionCountMap());
+    }
 }

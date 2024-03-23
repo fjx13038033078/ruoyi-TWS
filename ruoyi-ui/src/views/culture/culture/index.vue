@@ -77,7 +77,8 @@
             <el-input v-model="cultureForm.cultureHeir" :disabled="isReadOnly"></el-input>
           </el-form-item>
           <el-form-item label="非遗描述">
-            <el-input v-model="cultureForm.cultureDescription" :disabled="isReadOnly"></el-input>
+            <el-input v-model="cultureForm.cultureDescription" :disabled="isReadOnly" type="textarea"
+                      autosize></el-input>
           </el-form-item>
         </el-form>
       </div>

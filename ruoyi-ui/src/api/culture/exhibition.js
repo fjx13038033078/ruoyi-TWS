@@ -44,3 +44,11 @@ export function deleteExhibition(exhibitionId) {
     params: { exhibitionId }
   })
 }
+
+// 查询场馆与场地数量的映射
+export function getCultureExhibitionCountMap() {
+  return request({
+    url: '/culture/exhibition/getMap',
+    method: 'get'
+  })
+}

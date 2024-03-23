@@ -3,6 +3,7 @@ package com.ruoyi.culture.service;
 import com.ruoyi.culture.domain.Exhibition;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 非遗展览管理 Service 接口
@@ -49,4 +50,13 @@ public interface ExhibitionService {
      * @return 删除成功返回 true，否则返回 false
      */
     boolean deleteExhibition(Long exhibitionId);
+
+
+    /**
+     * 获取每个非遗及其对应的非遗展览数量的映射关系。
+     * 遍历所有非遗，查询每个非遗对应的非遗展览数量，构建非遗名称与展览数量的映射关系。
+     *
+     * @return 包含每个非遗及其对应的非遗展览数量的映射关系的 Map 对象
+     */
+    public Map<String, Integer> getCultureExhibitionCountMap();
 }

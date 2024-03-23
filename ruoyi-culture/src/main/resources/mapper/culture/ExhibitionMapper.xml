@@ -42,4 +42,9 @@
         DELETE FROM ich_exhibition WHERE exhibition_id = #{exhibitionId}
     </delete>
 
+    <select id="countByCultureId" resultType="int">
+        SELECT COUNT(*) FROM ich_exhibition WHERE culture_id = #{cultureId}
+    </select>
+
+
 </mapper>

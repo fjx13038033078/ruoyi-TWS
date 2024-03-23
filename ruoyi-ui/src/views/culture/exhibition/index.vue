@@ -63,7 +63,8 @@
             <el-input v-model="exhibitionForm.exhibitionLocation" :disabled="isReadOnly"></el-input>
           </el-form-item>
           <el-form-item label="展览描述">
-            <el-input v-model="exhibitionForm.exhibitionDescription" :disabled="isReadOnly"></el-input>
+            <el-input v-model="exhibitionForm.exhibitionDescription" :disabled="isReadOnly" type="textarea"
+                      autosize></el-input>
           </el-form-item>
         </el-form>
       </div>

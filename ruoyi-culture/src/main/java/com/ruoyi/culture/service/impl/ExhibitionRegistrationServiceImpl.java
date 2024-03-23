@@ -122,4 +122,5 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
             exhibitionRegistrationMapper.updateExhibitionRegistration(exhibitionRegistration); // 更新预约信息
         }
     }
+
 }
