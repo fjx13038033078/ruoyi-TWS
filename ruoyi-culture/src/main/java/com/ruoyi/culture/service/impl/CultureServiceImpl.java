@@ -2,6 +2,7 @@ package com.ruoyi.culture.service.impl;
 
 import com.ruoyi.culture.domain.Culture;
 import com.ruoyi.culture.mapper.CultureMapper;
+import com.ruoyi.culture.mapper.ExhibitionMapper;
 import com.ruoyi.culture.service.CultureService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CultureServiceImpl implements CultureService {
+
     private final CultureMapper cultureMapper;
+
+    private final ExhibitionMapper exhibitionMapper;
 
     /**
      * 获取所有非遗文化
@@ -75,6 +79,9 @@ public class CultureServiceImpl implements CultureService {
     @Override
     public boolean deleteCulture(Long cultureId) {
         int rows = cultureMapper.deleteCulture(cultureId);
+        if(rows > 0){
+            exhibitionMapper.deleteExhibitionByCultureId(cultureId);
+        }
         return rows > 0;
     }
 }
