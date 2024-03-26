@@ -222,8 +222,6 @@ export default {
         addExhibitionRegistration({ exhibitionId: row.exhibitionId }).then(() => {
           this.$message.success('预约成功')
           this.fetchExhibitions()
-        }).catch(() => {
-          this.$message.error('预约失败')
         })
       })
     },

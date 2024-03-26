@@ -51,7 +51,7 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
         // 获取当前登录用户ID
         Long userId = SecurityUtils.getUserId();
         String role = iSysRoleService.selectStringRoleByUserId(userId);
-        if (role.equalsIgnoreCase("admin")){
+        if (role.equalsIgnoreCase("admin")) {
             startPage();
             List<ExhibitionRegistration> allExhibitionRegistrations = exhibitionRegistrationMapper.getAllExhibitionRegistrations();
             fillCultureAndExhibitionName(allExhibitionRegistrations);
@@ -87,8 +87,9 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
         // 检查是否重复预约
         List<ExhibitionRegistration> exhibitionRegistrations = exhibitionRegistrationMapper.getExhibitionRegistrationByExhibitionId(exhibitionId);
         ExhibitionRegistration exhibitionRegistration = exhibitionRegistrations.stream()
-                .filter(reg -> reg.getUserId().equals(SecurityUtils.getUserId())).findFirst().orElse(null);
-        if (exhibitionRegistration != null && exhibitionRegistration.getRegistrationStatus() == 0){
+                .filter(reg -> reg.getUserId().equals(SecurityUtils.getUserId()))
+                .filter(reg -> reg.getRegistrationStatus() == 0).findAny().orElse(null);
+        if (exhibitionRegistration != null) {
             throw new RuntimeException("你已预约过该展览，请勿重复预约");
         } else {
             //获取当前登录的用户ID
@@ -127,7 +128,7 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
             }
             //获取展览名称
             Long exhibitionId = exhibitionRegistration.getExhibitionId();
-            Exhibition  exhibition = exhibitionMapper.getExhibitionById(exhibitionId);
+            Exhibition exhibition = exhibitionMapper.getExhibitionById(exhibitionId);
             if (exhibition != null) {
                 String exhibitionName = exhibition.getExhibitionName();
                 exhibitionRegistration.setExhibitionName(exhibitionName);
@@ -149,7 +150,7 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
             throw new RuntimeException("已经是取消状态，请勿重复取消");
         } else {
             assert exhibitionRegistration != null;
-            if (Objects.equals(exhibitionRegistration.getUserId(), SecurityUtils.getUserId()) || SecurityUtils.isAdmin(SecurityUtils.getUserId())){ // 如果预约状态为预约
+            if (Objects.equals(exhibitionRegistration.getUserId(), SecurityUtils.getUserId()) || SecurityUtils.isAdmin(SecurityUtils.getUserId())) { // 如果预约状态为预约
                 exhibitionRegistration.setRegistrationStatus(1); // 设置预约状态为取消
                 exhibitionRegistrationMapper.updateExhibitionRegistration(exhibitionRegistration); // 更新预约信息
             } else {

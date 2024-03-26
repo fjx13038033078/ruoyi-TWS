@@ -14,9 +14,10 @@
               {{ scope.row.registrationStatus === 0 ? '已预约' : '已取消' }}
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" width="160px">
+          <el-table-column label="操作" align="center" width="200px">
             <template slot-scope="scope">
               <el-button type="text" icon="el-icon-remove-outline" size="mini" @click="cancelReservation(scope.row)" v-hasPermi="['culture:registration:cancel']">取消预约</el-button>
+              <el-button type="text" icon="el-icon-delete" size="mini" @click="deleteReservation(scope.row)" v-hasPermi="['culture:registration:delete']">删除预约</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -36,7 +37,11 @@
 </template>
 
 <script>
-import {cancelExhibitionReservation, listAllExhibitionRegistrations} from "@/api/culture/exhibitionRregistration";
+import {
+  cancelExhibitionReservation,
+  deleteExhibitionRegistration,
+  listAllExhibitionRegistrations
+} from "@/api/culture/exhibitionRregistration";
 
 export default {
   data() {
@@ -71,6 +76,19 @@ export default {
       }).then(() => {
         cancelExhibitionReservation(row.registrationId).then(() => {
           this.$message.success('取消预约成功');
+          this.fetchReservations();
+        });
+      });
+    },
+    //删除预约记录
+    deleteReservation(row) {
+      this.$confirm('确认删除该预约吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteExhibitionRegistration(row.registrationId).then(() => {
+          this.$message.success('删除预约成功');
           this.fetchReservations();
         });
       });
