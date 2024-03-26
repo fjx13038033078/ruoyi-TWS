@@ -9,7 +9,8 @@
                      plain
                      icon="el-icon-plus"
                      size="medium"
-                     @click="handleAddCulture">新增非遗文化</el-button>
+                     @click="handleAddCulture">新增非遗文化
+          </el-button>
         </el-col>
       </el-row>
 
@@ -80,6 +81,15 @@
           <el-form-item label="非遗传承人">
             <el-input v-model="cultureForm.cultureHeir" :disabled="isReadOnly"></el-input>
           </el-form-item>
+          <!-- 根据当前模式决定显示 ImageUpload 或 ImagePreview -->
+          <el-form-item label="非遗图片">
+            <template v-if="!isReadOnly">
+              <ImageUpload v-model="cultureForm.cultureImage" :disabled="isReadOnly"><</ImageUpload>
+            </template>
+            <template v-else>
+              <ImagePreview :src="cultureForm.cultureImage" :disabled="isReadOnly"></ImagePreview>
+            </template>
+          </el-form-item>
           <el-form-item label="非遗描述">
             <el-input v-model="cultureForm.cultureDescription" :disabled="isReadOnly" type="textarea"
                       autosize></el-input>
@@ -114,6 +124,7 @@ export default {
         cultureBirthplace: '',
         cultureLevel: '',
         cultureHeir: '',
+        cultureImage: '',
         cultureDescription: ''
       },
       // 查询参数

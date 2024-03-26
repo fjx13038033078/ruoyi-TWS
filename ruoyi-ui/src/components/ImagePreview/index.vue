@@ -38,6 +38,7 @@ export default {
       let real_src = this.src.split(",")[0];
       if (isExternal(real_src)) {
         return real_src;
+
       }
       return process.env.VUE_APP_BASE_API + real_src;
     },

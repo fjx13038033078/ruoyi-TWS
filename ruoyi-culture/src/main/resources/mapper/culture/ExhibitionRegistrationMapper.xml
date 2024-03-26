@@ -22,6 +22,11 @@
         SELECT * FROM ich_exhibition_registration WHERE registration_id = #{registrationId}
     </select>
 
+    <!-- 根据用户ID获取展览报名信息 -->
+    <select id="getExhibitionRegistrationByUserId" parameterType="Long" resultMap="ExhibitionRegistrationResult">
+        SELECT * FROM ich_exhibition_registration WHERE user_id = #{userId}
+    </select>
+
     <!-- 添加非遗展览报名信息 -->
     <insert id="addExhibitionRegistration" parameterType="ExhibitionRegistration">
         INSERT INTO ich_exhibition_registration (user_id, exhibition_id, registration_status, registration_time)

@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.ruoyi.common.utils.PageUtils.startPage;
+
 /**
  * 非遗展览报名管理 Service 实现类
  *
@@ -44,9 +46,20 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
      */
     @Override
     public List<ExhibitionRegistration> getAllExhibitionRegistrations() {
-        List<ExhibitionRegistration> allExhibitionRegistrations = exhibitionRegistrationMapper.getAllExhibitionRegistrations();
-        fillCultureAndExhibitionName(allExhibitionRegistrations);
-        return allExhibitionRegistrations;
+        // 获取当前登录用户ID
+        Long userId = SecurityUtils.getUserId();
+        String role = iSysRoleService.selectStringRoleByUserId(userId);
+        if (role.equalsIgnoreCase("admin")){
+            startPage();
+            List<ExhibitionRegistration> allExhibitionRegistrations = exhibitionRegistrationMapper.getAllExhibitionRegistrations();
+            fillCultureAndExhibitionName(allExhibitionRegistrations);
+            return allExhibitionRegistrations;
+        } else {
+            startPage();
+            List<ExhibitionRegistration> exhibitionRegistrationByUserId = exhibitionRegistrationMapper.getExhibitionRegistrationByUserId(userId);
+            fillCultureAndExhibitionName(exhibitionRegistrationByUserId);
+            return exhibitionRegistrationByUserId;
+        }
     }
 
     /**
@@ -102,8 +115,14 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
             }
             //获取展览名称
             Long exhibitionId = exhibitionRegistration.getExhibitionId();
-            String exhibitionName = exhibitionMapper.getExhibitionById(exhibitionId).getExhibitionName();
-            exhibitionRegistration.setExhibitionName(exhibitionName);
+            Exhibition  exhibition = exhibitionMapper.getExhibitionById(exhibitionId);
+            if (exhibition != null) {
+                String exhibitionName = exhibition.getExhibitionName();
+                exhibitionRegistration.setExhibitionName(exhibitionName);
+            } else {
+                // 如果展览不存在，可以设置一个默认的展览名称，或者不进行任何操作
+                exhibitionRegistration.setExhibitionName("已删除的展览");
+            }
         }
     }
 

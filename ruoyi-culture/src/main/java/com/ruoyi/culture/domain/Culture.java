@@ -54,6 +54,11 @@ public class Culture implements Serializable {
     private String cultureHeir;
 
     /**
+     * 非遗图片
+     */
+    private String cultureImage;
+
+    /**
      * 非遗描述
      */
     private String cultureDescription;

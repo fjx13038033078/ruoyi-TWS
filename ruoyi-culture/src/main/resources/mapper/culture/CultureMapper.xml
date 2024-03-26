@@ -11,6 +11,7 @@
         <result property="cultureType" column="culture_type"/>
         <result property="cultureLevel" column="culture_level"/>
         <result property="cultureHeir" column="culture_heir"/>
+        <result property="cultureImage" column="culture_image"/>
         <result property="cultureDescription" column="culture_decription"/>
     </resultMap>
 
@@ -26,15 +27,16 @@
 
     <!-- 添加非遗文化 -->
     <insert id="addCulture" parameterType="Culture">
-        INSERT INTO ich_culture (culture_name, culture_birthplace, culture_type, culture_level, culture_heir, culture_decription)
-        VALUES (#{cultureName}, #{cultureBirthplace}, #{cultureType}, #{cultureLevel}, #{cultureHeir}, #{cultureDescription})
+        INSERT INTO ich_culture (culture_name, culture_birthplace, culture_type, culture_level, culture_heir, culture_image, culture_decription)
+        VALUES (#{cultureName}, #{cultureBirthplace}, #{cultureType}, #{cultureLevel}, #{cultureHeir}, #{cultureImage}, #{cultureDescription})
     </insert>
 
     <!-- 更新非遗文化信息 -->
     <update id="updateCulture" parameterType="Culture">
         UPDATE ich_culture SET culture_name = #{cultureName}, culture_birthplace = #{cultureBirthplace},
                                culture_type = #{cultureType}, culture_level = #{cultureLevel},
-                               culture_heir = #{cultureHeir}, culture_decription = #{cultureDescription}
+                               culture_heir = #{cultureHeir}, culture_image = #{cultureImage},
+                               culture_decription = #{cultureDescription}
         WHERE culture_id = #{cultureId}
     </update>
 
