@@ -81,6 +81,7 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
      */
     @Override
     public boolean addExhibitionRegistration(ExhibitionRegistration registration) {
+        //获取当前登录的用户ID
         registration.setUserId(SecurityUtils.getUserId());
         registration.setRegistrationTime(LocalDateTime.now());
         registration.setRegistrationStatus(0);

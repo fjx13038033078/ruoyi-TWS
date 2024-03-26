@@ -42,6 +42,11 @@
         DELETE FROM ich_exhibition WHERE exhibition_id = #{exhibitionId}
     </delete>
 
+    <!-- 删除非遗展览 -->
+    <delete id="deleteExhibitionByCultureId" parameterType="Long">
+        DELETE FROM ich_exhibition WHERE culture_id = #{cultureId}
+    </delete>
+
     <select id="countByCultureId" resultType="int">
         SELECT COUNT(*) FROM ich_exhibition WHERE culture_id = #{cultureId}
     </select>

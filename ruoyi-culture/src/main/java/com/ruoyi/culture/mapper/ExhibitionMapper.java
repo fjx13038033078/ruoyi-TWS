@@ -59,4 +59,12 @@ public interface ExhibitionMapper {
      * @return 展览个数
      */
     int countByCultureId(Long cultureId);
+
+    /**
+     * 删除非遗文化对应的所有展览
+     *
+     * @param cultureId
+     * @return
+     */
+    int deleteExhibitionByCultureId(Long cultureId);
 }
