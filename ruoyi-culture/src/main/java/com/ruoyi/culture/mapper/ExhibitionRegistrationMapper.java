@@ -38,6 +38,14 @@ public interface ExhibitionRegistrationMapper {
     List<ExhibitionRegistration> getExhibitionRegistrationByUserId(Long userId);
 
     /**
+     * 根据展览ID获取展览报名信息
+     *
+     * @param exhibitionId 展览ID
+     * @return 展览报名信息
+     */
+    List<ExhibitionRegistration> getExhibitionRegistrationByExhibitionId(Long exhibitionId);
+
+    /**
      * 添加非遗展览报名信息
      *
      * @param registration 待添加的非遗展览报名信息

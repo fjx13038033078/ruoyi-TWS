@@ -16,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Objects;
 
 import static com.ruoyi.common.utils.PageUtils.startPage;
 
@@ -81,12 +83,21 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
      */
     @Override
     public boolean addExhibitionRegistration(ExhibitionRegistration registration) {
-        //获取当前登录的用户ID
-        registration.setUserId(SecurityUtils.getUserId());
-        registration.setRegistrationTime(LocalDateTime.now());
-        registration.setRegistrationStatus(0);
-        int rows = exhibitionRegistrationMapper.addExhibitionRegistration(registration);
-        return rows > 0;
+        Long exhibitionId = registration.getExhibitionId();
+        // 检查是否重复预约
+        List<ExhibitionRegistration> exhibitionRegistrations = exhibitionRegistrationMapper.getExhibitionRegistrationByExhibitionId(exhibitionId);
+        ExhibitionRegistration exhibitionRegistration = exhibitionRegistrations.stream()
+                .filter(reg -> reg.getUserId().equals(SecurityUtils.getUserId())).findFirst().orElse(null);
+        if (exhibitionRegistration != null && exhibitionRegistration.getRegistrationStatus() == 0){
+            throw new RuntimeException("你已预约过该展览，请勿重复预约");
+        } else {
+            //获取当前登录的用户ID
+            registration.setUserId(SecurityUtils.getUserId());
+            registration.setRegistrationTime(LocalDateTime.now(ZoneOffset.UTC));
+            registration.setRegistrationStatus(0);
+            int rows = exhibitionRegistrationMapper.addExhibitionRegistration(registration);
+            return rows > 0;
+        }
     }
 
     /**
@@ -134,12 +145,16 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
      */
     public void cancelExhibitionReservation(Long reservationId) {
         ExhibitionRegistration exhibitionRegistration = exhibitionRegistrationMapper.getExhibitionRegistrationById(reservationId);
-        log.info("exhibitionRegistration: " + exhibitionRegistration);
         if (exhibitionRegistration != null && exhibitionRegistration.getRegistrationStatus() == 1) {
             throw new RuntimeException("已经是取消状态，请勿重复取消");
-        } else { // 如果预约状态为预约
-            exhibitionRegistration.setRegistrationStatus(1); // 设置预约状态为取消
-            exhibitionRegistrationMapper.updateExhibitionRegistration(exhibitionRegistration); // 更新预约信息
+        } else {
+            assert exhibitionRegistration != null;
+            if (Objects.equals(exhibitionRegistration.getUserId(), SecurityUtils.getUserId()) || SecurityUtils.isAdmin(SecurityUtils.getUserId())){ // 如果预约状态为预约
+                exhibitionRegistration.setRegistrationStatus(1); // 设置预约状态为取消
+                exhibitionRegistrationMapper.updateExhibitionRegistration(exhibitionRegistration); // 更新预约信息
+            } else {
+                throw new RuntimeException("你无权取消他人的预约");
+            }
         }
     }
 
