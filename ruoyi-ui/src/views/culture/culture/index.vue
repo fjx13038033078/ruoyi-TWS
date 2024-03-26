@@ -9,7 +9,8 @@
                      plain
                      icon="el-icon-plus"
                      size="medium"
-                     @click="handleAddCulture">新增非遗文化
+                     @click="handleAddCulture"
+                     v-hasPermi="['culture:culture:add']">新增非遗文化
           </el-button>
         </el-col>
       </el-row>
@@ -32,9 +33,9 @@
         <el-table-column label="非遗传承人" prop="cultureHeir" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="210px">
           <template slot-scope="scope">
-            <el-button type="text" icon="el-icon-view" size="mini" @click="handleView(scope.row)">查看</el-button>
-            <el-button type="text" icon="el-icon-edit" size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button type="text" icon="el-icon-delete" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button type="text" icon="el-icon-view" size="mini" @click="handleView(scope.row)" v-hasPermi="['culture:culture:view']">查看</el-button>
+            <el-button type="text" icon="el-icon-edit" size="mini" @click="handleEdit(scope.row)" v-hasPermi="['culture:culture:edit']">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" size="mini" @click="handleDelete(scope.row)" v-hasPermi="['culture:culture:delete']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

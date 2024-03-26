@@ -16,7 +16,7 @@
           </el-table-column>
           <el-table-column label="操作" align="center" width="160px">
             <template slot-scope="scope">
-              <el-button type="text" icon="el-icon-remove-outline" size="mini" @click="cancelReservation(scope.row)">取消预约</el-button>
+              <el-button type="text" icon="el-icon-remove-outline" size="mini" @click="cancelReservation(scope.row)" v-hasPermi="['culture:registration:cancel']">取消预约</el-button>
             </template>
           </el-table-column>
         </el-table>

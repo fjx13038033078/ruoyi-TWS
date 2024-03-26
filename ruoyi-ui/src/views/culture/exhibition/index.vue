@@ -9,7 +9,8 @@
                      plain
                      icon="el-icon-plus"
                      size="medium"
-                     @click="handleAddExhibition">新增非遗展览</el-button>
+                     @click="handleAddExhibition"
+                     v-hasPermi="['culture:exhibition:add']">新增非遗展览</el-button>
         </el-col>
       </el-row>
 
@@ -22,10 +23,10 @@
         <el-table-column label="展览地点" prop="exhibitionLocation" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="280px">
           <template slot-scope="scope">
-            <el-button type="text" icon="el-icon-finished" size="mini" @click="handleReservation(scope.row)">预约</el-button>
-            <el-button type="text" icon="el-icon-view" size="mini" @click="handleView(scope.row)">查看</el-button>
-            <el-button type="text" icon="el-icon-edit" size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button type="text" icon="el-icon-delete" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button type="text" icon="el-icon-finished" size="mini" @click="handleReservation(scope.row)" v-hasPermi="['culture:exhibition:registration']">预约</el-button>
+            <el-button type="text" icon="el-icon-view" size="mini" @click="handleView(scope.row)" v-hasPermi="['culture:exhibition:view']">查看</el-button>
+            <el-button type="text" icon="el-icon-edit" size="mini" @click="handleEdit(scope.row)" v-hasPermi="['culture:exhibition:edit']">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" size="mini" @click="handleDelete(scope.row)" v-hasPermi="['culture:exhibition:delete']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
