@@ -54,7 +54,7 @@
         <!-- 场馆场地数量 -->
         <el-col :span="12">
           <el-card style="margin-right: 20px; height: 420px;">
-            <h3 slot="header">场地数量</h3>
+            <h3 slot="header">展览数量</h3>
               <div id="cultureExhibitionChart" style="height: 300px;"></div> <!-- echarts 柱状图 -->
           </el-card>
         </el-col>
