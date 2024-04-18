@@ -83,6 +83,12 @@ public class ExhibitionRegistrationServiceImpl implements ExhibitionRegistration
      */
     @Override
     public boolean addExhibitionRegistration(ExhibitionRegistration registration) {
+        // 获取当前登录用户ID
+        Long userId = SecurityUtils.getUserId();
+        String role = iSysRoleService.selectStringRoleByUserId(userId);
+        if ("admin".equals(role)) {
+            throw new RuntimeException("管理员无需预约");
+        }
         Long exhibitionId = registration.getExhibitionId();
         // 检查是否重复预约
         List<ExhibitionRegistration> exhibitionRegistrations = exhibitionRegistrationMapper.getExhibitionRegistrationByExhibitionId(exhibitionId);

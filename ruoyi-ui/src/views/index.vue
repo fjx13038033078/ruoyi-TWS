@@ -72,6 +72,7 @@ import {listNotice, getNotice} from "@/api/system/notice";
 import request from '@/utils/request';
 import * as echarts from 'echarts'
 import {getCultureExhibitionCountMap} from "@/api/culture/exhibition";
+import {parseTime} from "../utils/ruoyi";
 
 
 export default {
@@ -131,6 +132,7 @@ export default {
     this.initCultureExhibitionChart(); // 初始化 echarts 柱状图
   },
   methods: {
+    parseTime,
     /** 查询公告列表 */
     getList() {
       this.loading = true;
