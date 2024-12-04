@@ -195,6 +195,7 @@
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
         <module>ruoyi-culture</module>
+        <module>ruoyi-student</module>
     </modules>
     <packaging>pom</packaging>
 
