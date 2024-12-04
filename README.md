@@ -1,5 +1,5 @@
 
-# ICH（Intangible Cultural Heritage的缩写）
+# SMS（Student Management System的缩写）
 
 ## 内置功能
 
