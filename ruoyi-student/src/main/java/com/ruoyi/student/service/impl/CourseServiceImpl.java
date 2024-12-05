@@ -1,10 +1,12 @@
 package com.ruoyi.student.service.impl;
 
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.student.domain.Course;
 import com.ruoyi.student.domain.Grade;
 import com.ruoyi.student.mapper.CourseMapper;
 import com.ruoyi.student.mapper.GradeMapper;
 import com.ruoyi.student.service.CourseService;
+import com.ruoyi.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
     private final CourseMapper courseMapper;
     private final GradeMapper gradeMapper;
+    private final ISysUserService sysUserService;
 
     @Override
     public List<Course> getAllCourses() {
@@ -33,7 +36,11 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course getCourseById(Long courseId) {
-        return courseMapper.getCourseById(courseId);
+        Course course = courseMapper.getCourseById(courseId);
+        SysUser sysUser = sysUserService.selectUserById(course.getInstructorId());
+        String nickName = sysUser.getNickName();
+        course.setInstructorName(nickName);
+        return course;
     }
 
     @Override

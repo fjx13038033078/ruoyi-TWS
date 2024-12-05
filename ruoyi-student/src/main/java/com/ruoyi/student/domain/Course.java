@@ -1,6 +1,7 @@
 package com.ruoyi.student.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
@@ -42,8 +43,14 @@ public class Course implements Serializable {
     private Integer courseHours;
 
     /**
+     * 授课教师ID
+     */
+    private Long instructorId;
+
+    /**
      * 授课教师姓名
      */
+    @TableField(exist = false)
     private String instructorName;
 
     /**

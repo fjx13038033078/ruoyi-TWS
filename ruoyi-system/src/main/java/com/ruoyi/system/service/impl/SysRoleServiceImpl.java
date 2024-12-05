@@ -446,7 +446,6 @@ public class SysRoleServiceImpl implements ISysRoleService
 
     @Override
     public int insertDefaultRole(Long userId) {
-
         return userRoleMapper.insertDefaultRole(userId);
 
     }
