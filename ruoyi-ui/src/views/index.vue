@@ -4,29 +4,12 @@
       <!-- 这里 ECharts 动画文本会被渲染 -->
     </div>
     <div>
-      <el-carousel :interval="4000" type="card" height="300px">
-        <el-carousel-item>
-          <a href="https://www.baidu.com" target="_blank">
-            <img src="../assets/images/01.jpg" alt="Image 1" style="width: 100%;">
-          </a>
-        </el-carousel-item>
-        <el-carousel-item>
-          <a href="https://www.jd.com" target="_blank">
-            <img src="../assets/images/02.jpg" alt="Image 2" style="width: 100%;">
-          </a>
-        </el-carousel-item>
-        <el-carousel-item>
-          <a href="https://www.taobao.com" target="_blank">
-            <img src="../assets/images/03.jpg" alt="Image 3" style="width: 100%;">
-          </a>
-        </el-carousel-item>
-      </el-carousel>
       <!-- 通知公告 -->
       <el-row style="margin-top: 20px;">
         <el-col :span="12">
           <el-card style="margin-right: 20px; height: 420px;">
             <h3 slot="header">通知公告</h3>
-            <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
+            <el-table v-loading="loading" :data="noticeList">
               <el-table-column label="序号" align="center" prop="noticeId" width="100"/>
               <el-table-column
                 label="公告标题"
@@ -51,11 +34,34 @@
             </el-table>
           </el-card>
         </el-col>
-        <!-- 场馆场地数量 -->
+        <el-col :span="12">
+          <el-card style="margin-right: 20px; height: 420px;">
+            <h3 slot="header">外部链接</h3>
+            <el-carousel :interval="5000" arrow="always">
+              <el-carousel-item>
+                <a href="https://www.baidu.com" target="_blank">
+                  <img src="../assets/images/01.jpg" alt="Image 1" style="width: 100%;">
+                </a>
+              </el-carousel-item>
+              <el-carousel-item>
+                <a href="https://www.jd.com" target="_blank">
+                  <img src="../assets/images/02.jpg" alt="Image 2" style="width: 100%;">
+                </a>
+              </el-carousel-item>
+              <el-carousel-item>
+                <a href="https://www.taobao.com" target="_blank">
+                  <img src="../assets/images/03.jpg" alt="Image 3" style="width: 100%;">
+                </a>
+              </el-carousel-item>
+            </el-carousel>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row style="margin-top: 20px;">
         <el-col :span="12">
           <el-card style="margin-right: 20px; height: 420px;">
             <h3 slot="header">学科均分</h3>
-              <div id="cultureExhibitionChart" style="height: 300px;"></div> <!-- echarts 柱状图 -->
+            <div id="cultureExhibitionChart" style="height: 300px;"></div> <!-- echarts 柱状图 -->
           </el-card>
         </el-col>
       </el-row>
