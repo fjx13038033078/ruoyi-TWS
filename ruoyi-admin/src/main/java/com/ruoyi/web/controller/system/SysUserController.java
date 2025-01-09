@@ -89,6 +89,30 @@ public class SysUserController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 获取老师列表
+     */
+    @PreAuthorize("@ss.hasPermi('system:user:list')")
+    @GetMapping("/teacherList")
+    public TableDataInfo teacherList(SysUser user)
+    {
+        startPage();
+        List<SysUser> list = userService.selectTeacherList(user);
+        return getDataTable(list);
+    }
+
+    /**
+     * 获取学生列表
+     */
+    @PreAuthorize("@ss.hasPermi('system:user:list')")
+    @GetMapping("/studentList")
+    public TableDataInfo studentList(SysUser user)
+    {
+        startPage();
+        List<SysUser> list = userService.selectStudentList(user);
+        return getDataTable(list);
+    }
+
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:user:export')")
     @PostMapping("/export")

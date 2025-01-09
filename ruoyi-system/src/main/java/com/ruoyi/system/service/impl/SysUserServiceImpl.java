@@ -105,6 +105,18 @@ public class SysUserServiceImpl implements ISysUserService
         return userMapper.selectVipList(user);
     }
 
+    @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
+    public List<SysUser> selectTeacherList(SysUser user) {
+        return userMapper.selectTeacherList(user);
+    }
+
+    @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
+    public List<SysUser> selectStudentList(SysUser user) {
+        return userMapper.selectStudentList(user);
+    }
+
     /**
      * 根据条件分页查询已分配用户角色列表
      * 

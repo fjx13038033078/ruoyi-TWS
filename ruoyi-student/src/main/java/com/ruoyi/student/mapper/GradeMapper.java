@@ -30,6 +30,14 @@ public interface GradeMapper {
     Grade getGradeById(Long gradeId);
 
     /**
+     * 根据学生ID获取成绩列表
+     *
+     * @param userId 课程ID
+     * @return 成绩列表
+     */
+    List<Grade> getGradeByUserId(Long userId);
+
+    /**
      * 添加成绩
      *
      * @param grade 待添加的成绩信息

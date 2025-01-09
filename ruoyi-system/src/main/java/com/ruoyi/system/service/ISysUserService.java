@@ -23,6 +23,20 @@ public interface ISysUserService
     public List<SysUser> selectVipList(SysUser user);
 
     /**
+     * 查询所有教师
+     *
+     * @return 结果
+     */
+    public List<SysUser> selectTeacherList(SysUser user);
+
+    /**
+     * 查询所有学生
+     *
+     * @return 结果
+     */
+    public List<SysUser> selectStudentList(SysUser user);
+
+    /**
      * 根据条件分页查询已分配用户角色列表
      * 
      * @param user 用户信息

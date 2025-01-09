@@ -28,6 +28,24 @@ export function listVip(query) {
   })
 }
 
+// 查询用户列表
+export function listTeacher(query) {
+  return request({
+    url: '/system/user/teacherList',
+    method: 'get',
+    params: query
+  })
+}
+
+// 查询用户列表
+export function listStudent(query) {
+  return request({
+    url: '/system/user/studentList',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询用户详细
 export function getUser(userId) {
   return request({

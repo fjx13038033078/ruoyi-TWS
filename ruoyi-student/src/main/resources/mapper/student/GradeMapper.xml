@@ -9,7 +9,6 @@
         <result property="userId" column="user_id"/>
         <result property="courseId" column="course_id"/>
         <result property="grade" column="grade"/>
-        <result property="semester" column="semester"/>
         <result property="remarks" column="remarks"/>
     </resultMap>
 
@@ -23,18 +22,22 @@
         SELECT * FROM sms_grade WHERE grade_id = #{gradeId}
     </select>
 
+    <!-- 根据学生ID获取成绩信息 -->
+    <select id="getGradeByUserId" parameterType="Long" resultMap="GradeResult">
+        SELECT * FROM sms_grade WHERE user_id = #{userId}
+    </select>
+
     <!-- 添加成绩 -->
     <insert id="addGrade" parameterType="Grade">
-        INSERT INTO sms_grade (user_id, course_id, grade, semester, remarks)
-        VALUES (#{userId}, #{courseId}, #{grade}, #{semester}, #{remarks})
+        INSERT INTO sms_grade (user_id, course_id, grade, remarks)
+        VALUES (#{userId}, #{courseId}, #{grade}, #{remarks})
     </insert>
 
     <!-- 更新成绩信息 -->
     <update id="updateGrade" parameterType="Grade">
         UPDATE sms_grade
         SET user_id = #{userId}, course_id = #{courseId},
-            grade = #{grade}, semester = #{semester},
-            remarks = #{remarks}
+            grade = #{grade},remarks = #{remarks}
         WHERE grade_id = #{gradeId}
     </update>
 

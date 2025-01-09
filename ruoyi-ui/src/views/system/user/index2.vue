@@ -153,7 +153,7 @@
               ></el-switch>
             </template>
           </el-table-column>
-          <el-table-column label="余额" align="center" key="balance" prop="balance" v-if="columns[6].visible" />
+<!--          <el-table-column label="余额" align="center" key="balance" prop="balance" v-if="columns[6].visible" />-->
           <el-table-column label="创建时间" align="center" prop="createTime" v-if="columns[6].visible" width="160">
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.createTime) }}</span>
@@ -295,13 +295,13 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="余额">
-              <el-input v-model="form.balance" type="number" placeholder="请输入金额"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+<!--        <el-row>-->
+<!--          <el-col :span="24">-->
+<!--            <el-form-item label="余额">-->
+<!--              <el-input v-model="form.balance" type="number" placeholder="请输入金额"></el-input>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--        </el-row>-->
         <el-row>
           <el-col :span="24">
             <el-form-item label="备注">
@@ -349,7 +349,18 @@
 </template>
 
 <script>
-import { listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUserStatus, deptTreeSelect ,listTrainer} from "@/api/system/user";
+import {
+  listUser,
+  getUser,
+  delUser,
+  addUser,
+  updateUser,
+  resetUserPwd,
+  changeUserStatus,
+  deptTreeSelect,
+  listTrainer,
+  listTeacher
+} from "@/api/system/user";
 import { getToken } from "@/utils/auth";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
@@ -477,7 +488,7 @@ export default {
     /** 查询用户列表 */
     getList() {
       this.loading = true;
-      listTrainer(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+      listTeacher(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
           this.userList = response.rows;
           this.total = response.total;
           this.loading = false;

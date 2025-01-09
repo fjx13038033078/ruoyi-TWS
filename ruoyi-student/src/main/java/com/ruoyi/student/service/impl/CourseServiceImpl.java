@@ -2,7 +2,6 @@ package com.ruoyi.student.service.impl;
 
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.student.domain.Course;
-import com.ruoyi.student.domain.Grade;
 import com.ruoyi.student.mapper.CourseMapper;
 import com.ruoyi.student.mapper.GradeMapper;
 import com.ruoyi.student.service.CourseService;
@@ -31,7 +30,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> getAllCourses() {
-        return courseMapper.getAllCourses();
+        List<Course> allCourses = courseMapper.getAllCourses();
+        fillCourseName(allCourses);
+        return allCourses;
     }
 
     @Override
@@ -60,5 +61,13 @@ public class CourseServiceImpl implements CourseService {
         gradeMapper.deleteGrade(courseId);
         int rows = courseMapper.deleteCourse(courseId);
         return rows > 0;
+    }
+
+    private void fillCourseName(List<Course> courses) {
+        for (Course course : courses) {
+            SysUser sysUser = sysUserService.selectUserById(course.getInstructorId());
+            String nickName = sysUser.getNickName();
+            course.setInstructorName(nickName);
+        }
     }
 }

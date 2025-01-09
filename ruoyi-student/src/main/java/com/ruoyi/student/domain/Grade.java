@@ -1,6 +1,7 @@
 package com.ruoyi.student.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
@@ -32,9 +33,21 @@ public class Grade implements Serializable {
     private Long userId;
 
     /**
+     * 学生姓名
+     */
+    @TableField(exist = false)
+    private String userName;
+
+    /**
      * 课程ID，外键关联课程表
      */
     private Long courseId;
+
+    /**
+     * 课程名称
+     */
+    @TableField(exist = false)
+    private String courseName;
 
     /**
      * 成绩，支持百分制（0-100）
@@ -44,6 +57,7 @@ public class Grade implements Serializable {
     /**
      * 学期
      */
+    @TableField(exist = false)
     private String semester;
 
     /**

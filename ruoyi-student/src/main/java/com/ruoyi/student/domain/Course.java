@@ -35,7 +35,7 @@ public class Course implements Serializable {
     /**
      * 课程学分
      */
-    private Integer courseCredits;
+    private Double courseCredits;
 
     /**
      * 课程学时

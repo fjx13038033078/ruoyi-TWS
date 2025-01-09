@@ -34,7 +34,7 @@
     <update id="updateCourse" parameterType="Course">
         UPDATE sms_course
         SET course_name = #{courseName}, course_credits = #{courseCredits},
-            course_hours = #{courseHours}, instructor_is = #{instructorId},
+            course_hours = #{courseHours}, instructor_id = #{instructorId},
             semester = #{semester}, course_description = #{courseDescription}
         WHERE course_id = #{courseId}
     </update>
