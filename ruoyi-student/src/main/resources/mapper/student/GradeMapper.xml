@@ -27,6 +27,31 @@
         SELECT * FROM sms_grade WHERE user_id = #{userId}
     </select>
 
+    <!-- 获取每门课程的挂科率 -->
+    <select id="getFailureRateByCourse" resultType="map">
+        SELECT
+        course_id AS courseId,
+        COUNT(*) AS totalStudents,
+        SUM(CASE WHEN grade &lt; 60 THEN 1 ELSE 0 END) AS failCount,
+        SUM(CASE WHEN grade &lt; 60 THEN 1 ELSE 0 END) / NULLIF(COUNT(*), 0) AS failureRate
+        FROM
+        sms_grade
+        GROUP BY
+        course_id
+    </select>
+
+    <!-- 获取每门课程的平均分，返回课程ID和平均分的Map -->
+    <select id="getAverageScoreByCourse" resultType="map">
+        SELECT
+            course_id AS courseId,
+            AVG(grade) AS averageScore
+        FROM
+            sms_grade
+        GROUP BY
+            course_id
+    </select>
+
+
     <!-- 添加成绩 -->
     <insert id="addGrade" parameterType="Grade">
         INSERT INTO sms_grade (user_id, course_id, grade, remarks)

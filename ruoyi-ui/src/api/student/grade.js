@@ -18,6 +18,20 @@ export function getGradeById(gradeId) {
   })
 }
 
+export function getFailureRateByCourse() {
+  return request({
+    url: '/student/grade/failureRate',
+    method: 'get'
+  })
+}
+
+export function getAverageScoreByCourse() {
+  return request({
+    url: '/student/grade/averageScore',
+    method: 'get'
+  })
+}
+
 // 添加成绩
 export function addGrade(data) {
   return request({

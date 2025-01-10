@@ -1,9 +1,11 @@
 package com.ruoyi.student.mapper;
 
 import com.ruoyi.student.domain.Grade;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -36,6 +38,21 @@ public interface GradeMapper {
      * @return 成绩列表
      */
     List<Grade> getGradeByUserId(Long userId);
+
+    /**
+     * 获取每门课程的挂科率（按课程ID统计）
+     * @return 课程ID和挂科率
+     */
+    @MapKey("courseId")
+    List<Map<Long, Object>> getFailureRateByCourse();
+
+    /**
+     * 获取每门课程的平均成绩（按课程ID统计）
+     * @return 课程ID和平均成绩
+     */
+    @MapKey("courseId")
+    List<Map<Long, Object>> getAverageScoreByCourse();
+
 
     /**
      * 添加成绩

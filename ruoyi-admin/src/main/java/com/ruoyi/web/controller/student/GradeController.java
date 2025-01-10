@@ -35,6 +35,18 @@ public class GradeController extends BaseController {
         return AjaxResult.success(gradeService.getGradeById(gradeId));
     }
 
+    // 获取所有失败率
+    @GetMapping("/failureRate")
+    public AjaxResult getFailureRateByCourse(){
+        return success(gradeService.getFailureRateByCourse());
+    }
+
+    // 获取所有平均成绩
+    @GetMapping("/averageScore")
+    public AjaxResult getAverageScoreByCourse(){
+        return success(gradeService.getAverageScoreByCourse());
+    }
+
     // 添加成绩
     @PostMapping("/add")
     public AjaxResult addGrade(@RequestBody Grade grade) {

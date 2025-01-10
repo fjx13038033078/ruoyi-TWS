@@ -2,7 +2,9 @@ package com.ruoyi.student.service;
 
 import com.ruoyi.student.domain.Grade;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -26,6 +28,20 @@ public interface GradeService {
      * @return 成绩信息
      */
     Grade getGradeById(Long gradeId);
+
+    /**
+     * 获取各课程不及格率
+     *
+     * @return 各课程不及格率列表
+     */
+    Map<String, Double> getFailureRateByCourse();
+
+    /**
+     * 获取各课程平均分
+     *
+     * @return 各课程平均分列表
+     */
+    Map<String, Double> getAverageScoreByCourse();
 
     /**
      * 添加成绩

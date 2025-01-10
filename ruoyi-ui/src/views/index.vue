@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div ref="echartsText" style="height: 100px; display: flex; justify-content: center; align-items: center;">
+    <div ref="echartsText" style="margin-top: 10px; height: 100px; display: flex; justify-content: center; align-items: center;">
       <!-- 这里 ECharts 动画文本会被渲染 -->
     </div>
     <div>
       <!-- 通知公告 -->
-      <el-row style="margin-top: 20px;">
+      <el-row style="margin-top: 10px;">
         <el-col :span="12">
           <el-card style="margin-right: 20px; height: 420px;">
             <h3 slot="header">通知公告</h3>
@@ -60,8 +60,14 @@
       <el-row style="margin-top: 20px;">
         <el-col :span="12">
           <el-card style="margin-right: 20px; height: 420px;">
-            <h3 slot="header">学科均分</h3>
-            <div id="cultureExhibitionChart" style="height: 300px;"></div> <!-- echarts 柱状图 -->
+            <h3 slot="header">学科挂科率</h3>
+            <div id="failureRateChart" style="height: 300px;"></div> <!-- echarts 柱状图 -->
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card style="margin-right: 20px; height: 420px;">
+            <h3 slot="header">学科平均分</h3>
+            <div id="averageScoreChart" style="height: 300px;"></div> <!-- echarts 柱状图 -->
           </el-card>
         </el-col>
       </el-row>
@@ -75,10 +81,9 @@
 </template>
 <script>
 import {listNotice, getNotice} from "@/api/system/notice";
-import request from '@/utils/request';
 import * as echarts from 'echarts'
-import {getCultureExhibitionCountMap} from "@/api/culture/exhibition";
 import {parseTime} from "../utils/ruoyi";
+import {getAverageScoreByCourse, getFailureRateByCourse} from "@/api/student/grade";
 
 
 export default {
@@ -104,7 +109,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      cultureExhibitionCountData: {}, // 存储场馆场地数量映射的数据
+      failureRateByCourseData: {},
+      averageScoreByCourseData: {},
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -135,7 +141,8 @@ export default {
     this.getList();
   },
   mounted() {
-    this.initCultureExhibitionChart(); // 初始化 echarts 柱状图
+    this.initFailureRateByCourse();
+    this.initAverageScoreByCourse();
     this.initEchartsText();
   },
   methods: {
@@ -158,17 +165,25 @@ export default {
         this.loading = false;
       });
     },
-    // 获取场馆场地数量映射的数据并更新到图表中
-    fetchCultureExhibitionCountMap() {
-      getCultureExhibitionCountMap().then(response => {
-        this.cultureExhibitionCountData = response.data;
-        this.updateCultureExhibitionChart(); // 获取到数据后更新图表
+    fetchFailureRateCountMap() {
+      getFailureRateByCourse().then(response => {
+        this.failureRateByCourseData = response.data;
+        this.updateFailureRateChart(); // 获取到数据后更新图表
       });
     },
-    // 初始化 echarts 柱状图
-    initCultureExhibitionChart() {
-      this.cultureExhibitionChart = echarts.init(document.getElementById("cultureExhibitionChart"));
-      this.fetchCultureExhibitionCountMap(); // 获取数据并更新图表
+    fetchAverageScoreByCourse() {
+      getAverageScoreByCourse().then(response => {
+        this.averageScoreByCourseData = response.data;
+        this.updateAverageScoreChart(); // 获取到数据后更新图表
+      });
+    },
+    initFailureRateByCourse() {
+      this.failureRateChart = echarts.init(document.getElementById("failureRateChart"));
+      this.fetchFailureRateCountMap();
+    },
+    initAverageScoreByCourse(){
+      this.averageScoreChart = echarts.init(document.getElementById("averageScoreChart"));
+      this.fetchAverageScoreByCourse();
     },
     // 初始化 ECharts 动画文本
     initEchartsText() {
@@ -223,26 +238,43 @@ export default {
       };
       myChart.setOption(option);
     },
-    // 更新 echarts 柱状图
-    updateCultureExhibitionChart() {
-      // 使用获取到的数据更新图表
-      const cultureNames = Object.keys(this.cultureExhibitionCountData);
-      const exhibitionCounts = Object.values(this.cultureExhibitionCountData);
+    updateFailureRateChart() {
+      const courseNames = Object.keys(this.failureRateByCourseData);
+      const failureRate = Object.values(this.failureRateByCourseData);
       const option = {
         // echarts 配置项
         xAxis: {
           type: "category",
-          data: cultureNames
+          data: courseNames
         },
         yAxis: {
           type: "value"
         },
         series: [{
-          data: exhibitionCounts,
+          data: failureRate,
           type: "bar"
         }]
       };
-      this.cultureExhibitionChart.setOption(option);
+      this.failureRateChart.setOption(option);
+    },
+    updateAverageScoreChart(){
+      const courseNames = Object.keys(this.averageScoreByCourseData);
+      const averageScore = Object.values(this.averageScoreByCourseData);
+      const option = {
+        // echarts 配置项
+        xAxis: {
+          type: "category",
+          data: courseNames
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [{
+          data: averageScore,
+          type: "bar"
+        }]
+      };
+      this.averageScoreChart.setOption(option);
     }
   }
 };
