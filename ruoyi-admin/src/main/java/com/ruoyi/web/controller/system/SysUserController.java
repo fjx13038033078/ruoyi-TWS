@@ -92,7 +92,6 @@ public class SysUserController extends BaseController
     /**
      * 获取老师列表
      */
-    @PreAuthorize("@ss.hasPermi('system:user:list')")
     @GetMapping("/teacherList")
     public TableDataInfo teacherList(SysUser user)
     {
@@ -104,7 +103,6 @@ public class SysUserController extends BaseController
     /**
      * 获取学生列表
      */
-    @PreAuthorize("@ss.hasPermi('system:user:list')")
     @GetMapping("/studentList")
     public TableDataInfo studentList(SysUser user)
     {

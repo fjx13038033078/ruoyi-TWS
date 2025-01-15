@@ -10,7 +10,7 @@
                      icon="el-icon-plus"
                      size="medium"
                      @click="handleAddGrade"
-                     v-hasPermi="['student:grade:add']">新增成绩
+                     v-hasPermi="['student:grade:add']">添加成绩
           </el-button>
         </el-col>
       </el-row>
@@ -75,12 +75,6 @@
           <el-form-item label="成绩">
             <el-input v-model="gradeForm.grade" type="number" :min="0" :max="100" :disabled="isReadOnly"></el-input>
           </el-form-item>
-<!--          <el-form-item label="学期">-->
-<!--            <el-select v-model="gradeForm.semester" :disabled="isReadOnly">-->
-<!--              <el-option label="春季" value="春季"></el-option>-->
-<!--              <el-option label="秋季" value="秋季"></el-option>-->
-<!--            </el-select>-->
-<!--          </el-form-item>-->
           <el-form-item label="备注">
             <el-input v-model="gradeForm.remarks" type="textarea" :disabled="isReadOnly"></el-input>
           </el-form-item>
