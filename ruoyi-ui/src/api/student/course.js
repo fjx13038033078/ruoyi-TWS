@@ -40,7 +40,7 @@ export function updateCourse(data) {
 export function deleteCourse(courseId) {
   return request({
     url: '/student/course/delete',
-    method: 'delete',
+    method: 'get',
     params: { courseId }
   })
 }
