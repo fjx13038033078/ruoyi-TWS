@@ -148,8 +148,13 @@ public class GradeServiceImpl implements GradeService {
         for (Grade grade : grades) {
             Long courseId = grade.getCourseId();
             Course courseById = courseService.getCourseById(courseId);
-            grade.setCourseName(courseById.getCourseName());
-            grade.setSemester(courseById.getSemester());
+            if (courseById == null) {
+                grade.setCourseName("该课程已被删除");
+                grade.setSemester("该课程已被删除");
+            } else {
+                grade.setCourseName(courseById.getCourseName());
+                grade.setSemester(courseById.getSemester());
+            }
         }
     }
 
