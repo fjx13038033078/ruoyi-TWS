@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.patient.mapper.OrganMapper">
+
+    <!-- 查询所有器官信息 -->
+    <select id="getAllOrgans" resultType="com.ruoyi.patient.domain.Organ">
+        SELECT * FROM tws_organ
+    </select>
+
+    <!-- 根据 ID 查询器官信息 -->
+    <select id="getOrganById" parameterType="Long" resultType="com.ruoyi.patient.domain.Organ">
+        SELECT * FROM tws_organ WHERE id = #{id}
+    </select>
+
+    <!-- 插入器官信息 -->
+    <insert id="addOrgan" parameterType="com.ruoyi.patient.domain.Organ">
+        INSERT INTO tws_organ (organ_type, blood_type, health_condition, matched, create_time)
+        VALUES (#{organType}, #{bloodType}, #{healthCondition}, #{matched}, #{createTime})
+    </insert>
+
+    <!-- 更新器官信息 -->
+    <update id="updateOrgan" parameterType="com.ruoyi.patient.domain.Organ">
+        UPDATE tws_organ
+        SET organ_type = #{organType},
+            blood_type = #{bloodType},
+            health_condition = #{healthCondition},
+            matched = #{matched}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除器官信息 -->
+    <delete id="deleteOrgan" parameterType="Long">
+        DELETE FROM tws_organ WHERE id = #{id}
+    </delete>
+
+</mapper>

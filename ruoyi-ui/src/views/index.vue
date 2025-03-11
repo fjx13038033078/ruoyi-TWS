@@ -36,7 +36,7 @@
         </el-col>
         <el-col :span="12">
           <el-card style="margin-right: 20px; height: 420px;">
-            <h3 slot="header">校外链接</h3>
+            <h3 slot="header">健康链接</h3>
             <el-carousel :interval="5000" arrow="always">
               <el-carousel-item>
                 <a href="https://www.baidu.com" target="_blank">
@@ -57,20 +57,20 @@
           </el-card>
         </el-col>
       </el-row>
-      <el-row style="margin-top: 20px;">
-        <el-col :span="12">
-          <el-card style="margin-right: 20px; height: 420px;">
-            <h3 slot="header">学科挂科率</h3>
-            <div id="failureRateChart" style="height: 300px;"></div> <!-- echarts 柱状图 -->
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card style="margin-right: 20px; height: 420px;">
-            <h3 slot="header">学科平均分</h3>
-            <div id="averageScoreChart" style="height: 300px;"></div> <!-- echarts 柱状图 -->
-          </el-card>
-        </el-col>
-      </el-row>
+<!--      <el-row style="margin-top: 20px;">-->
+<!--        <el-col :span="12">-->
+<!--          <el-card style="margin-right: 20px; height: 420px;">-->
+<!--            <h3 slot="header">学科挂科率</h3>-->
+<!--            <div id="failureRateChart" style="height: 300px;"></div> &lt;!&ndash; echarts 柱状图 &ndash;&gt;-->
+<!--          </el-card>-->
+<!--        </el-col>-->
+<!--        <el-col :span="12">-->
+<!--          <el-card style="margin-right: 20px; height: 420px;">-->
+<!--            <h3 slot="header">学科平均分</h3>-->
+<!--            <div id="averageScoreChart" style="height: 300px;"></div> &lt;!&ndash; echarts 柱状图 &ndash;&gt;-->
+<!--          </el-card>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
       <!-- 弹出的公告内容卡片 -->
       <el-dialog :title="selectedNotice.title" :visible.sync="showNoticeDialog" width="780px" append-to-body>
         <div slot="title" style="text-align: center;">{{ selectedNotice.title }}</div>
@@ -197,7 +197,7 @@ export default {
               left: 'center',
               top: 'center',
               style: {
-                text: '大学生学籍管理平台',
+                text: '甲乙丙丁等待登记系统',
                 fontSize: 80,
                 fontWeight: 'bold',
                 lineDash: [0, 200],
