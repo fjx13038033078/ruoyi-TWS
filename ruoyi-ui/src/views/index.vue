@@ -141,8 +141,8 @@ export default {
     this.getList();
   },
   mounted() {
-    this.initFailureRateByCourse();
-    this.initAverageScoreByCourse();
+    // this.initFailureRateByCourse();
+    // this.initAverageScoreByCourse();
     this.initEchartsText();
   },
   methods: {
