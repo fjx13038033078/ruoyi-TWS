@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ public class PatientServiceImpl implements PatientService {
      */
     @Override
     public List<Patient> getAllPatients() {
+        log.info("获取所有患者登记信息:",patientMapper.getAllPatients());
         return patientMapper.getAllPatients();
     }
 
@@ -49,6 +51,7 @@ public class PatientServiceImpl implements PatientService {
      */
     @Override
     public boolean addPatient(Patient patient) {
+        patient.setCreateTime(LocalDateTime.now());
         int rows = patientMapper.addPatient(patient);
         return rows > 0;
     }

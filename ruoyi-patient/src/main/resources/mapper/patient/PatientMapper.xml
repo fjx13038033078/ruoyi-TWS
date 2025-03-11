@@ -4,24 +4,52 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.patient.mapper.PatientMapper">
 
-    <!-- 查询所有患者登记信息 -->
-    <select id="getAllPatients" resultType="com.ruoyi.patient.domain.Patient">
+    <resultMap type="Patient" id="PatientResult">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="organNeeded" column="organ_needed"/>
+        <result property="bloodType" column="blood_type"/>
+        <result property="medicalCondition" column="medical_condition"/>
+        <result property="emergencyStatus" column="emergency_status"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <!-- 获取所有患者登记信息 -->
+    <select id="getAllPatients" resultMap="PatientResult">
         SELECT * FROM tws_patient
     </select>
 
-    <!-- 根据 ID 查询患者登记信息 -->
-    <select id="getPatientById" parameterType="Long" resultType="com.ruoyi.patient.domain.Patient">
+    <!-- 根据患者ID获取登记信息 -->
+    <select id="getPatientById" parameterType="Long" resultMap="PatientResult">
         SELECT * FROM tws_patient WHERE id = #{id}
     </select>
 
+    <!-- 根据用户ID获取患者信息 -->
+    <select id="getPatientsByUserId" parameterType="Long" resultMap="PatientResult">
+        SELECT * FROM tws_patient WHERE user_id = #{userId}
+    </select>
+
+    <!-- 统计紧急状态的患者人数 -->
+    <select id="countEmergencyPatients" resultType="int">
+        SELECT COUNT(*) FROM tws_patient WHERE emergency_status = 1
+    </select>
+
+    <!-- 统计按器官需求分类的患者人数 -->
+    <select id="countPatientsByOrganNeeded" resultType="map">
+        SELECT organ_needed AS organNeeded, COUNT(*) AS patientCount
+        FROM tws_patient
+        GROUP BY organ_needed
+    </select>
+
     <!-- 插入患者登记信息 -->
-    <insert id="addPatient" parameterType="com.ruoyi.patient.domain.Patient">
+    <insert id="addPatient" parameterType="Patient">
         INSERT INTO tws_patient (user_id, organ_needed, blood_type, medical_condition, emergency_status, status, create_time)
-        VALUES (#{userId}, #{organNeeded}, #{bloodType}, #{medicalCondition}, #{emergencyStatus}, #{status}, #{createTime})
+        VALUES (#{userId}, #{organNeeded}, #{bloodType}, #{MedicalCondition}, #{emergencyStatus}, #{status}, #{createTime})
     </insert>
 
     <!-- 更新患者登记信息 -->
-    <update id="updatePatient" parameterType="com.ruoyi.patient.domain.Patient">
+    <update id="updatePatient" parameterType="Patient">
         UPDATE tws_patient
         SET user_id = #{userId},
             organ_needed = #{organNeeded},

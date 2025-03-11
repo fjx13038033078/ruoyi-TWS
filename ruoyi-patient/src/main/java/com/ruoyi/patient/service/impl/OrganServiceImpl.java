@@ -27,6 +27,7 @@ public class OrganServiceImpl implements OrganService {
      */
     @Override
     public List<Organ> getAllOrgans() {
+        log.info("获取所有器官供体信息:",organMapper.getAllOrgans());
         return organMapper.getAllOrgans();
     }
 
