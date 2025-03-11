@@ -60,7 +60,7 @@
           <el-input v-model="patientForm.userId"></el-input>
         </el-form-item>
         <el-form-item label="病情描述">
-          <el-input v-model="patientForm.medicalCondition" type=""></el-input>
+          <el-input v-model="patientForm.medicalCondition" type="textarea"></el-input>
         </el-form-item>
         <el-form-item label="紧急状态">
           <el-radio-group v-model="patientForm.emergencyStatus">
@@ -70,17 +70,17 @@
         </el-form-item>
         <el-form-item label="器官需求">
           <el-select v-model="patientForm.organNeeded">
-            <el-option v-for="(label, value) in organOptions" :key="value" :label="label" :value="value"></el-option>
+            <el-option v-for="(label, value) in organOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="血型">
           <el-select v-model="patientForm.bloodType">
-            <el-option v-for="(label, value) in bloodOptions" :key="value" :label="label" :value="value"></el-option>
+            <el-option v-for="(label, value) in bloodOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="状态">
           <el-select v-model="patientForm.status">
-            <el-option v-for="(label, value) in statusOptions" :key="value" :label="label" :value="value"></el-option>
+            <el-option v-for="(label, value) in statusOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
       </el-form>

@@ -45,7 +45,7 @@
     <!-- 插入患者登记信息 -->
     <insert id="addPatient" parameterType="Patient">
         INSERT INTO tws_patient (user_id, organ_needed, blood_type, medical_condition, emergency_status, status, create_time)
-        VALUES (#{userId}, #{organNeeded}, #{bloodType}, #{MedicalCondition}, #{emergencyStatus}, #{status}, #{createTime})
+        VALUES (#{userId}, #{organNeeded}, #{bloodType}, #{medicalCondition}, #{emergencyStatus}, #{status}, #{createTime})
     </insert>
 
     <!-- 更新患者登记信息 -->
