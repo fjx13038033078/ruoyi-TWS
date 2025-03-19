@@ -84,4 +84,7 @@ public class Patient implements Serializable {
 
     /** 透析频率（如每周3次，仅适用于肾移植） */
     private String dialysisFrequency;
+
+    /** 患者上传的文件 */
+    private String fileName;
 }

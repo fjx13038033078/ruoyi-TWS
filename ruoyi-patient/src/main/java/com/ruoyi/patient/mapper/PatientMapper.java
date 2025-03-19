@@ -16,7 +16,7 @@ public interface PatientMapper {
      *
      * @return 患者登记列表
      */
-    List<Patient> getAllPatients();
+    List<Patient> getAllPatients(Patient patient);
 
     /**
      * 根据 ID 获取患者登记信息
@@ -25,6 +25,14 @@ public interface PatientMapper {
      * @return 患者信息
      */
     Patient getPatientById(Long id);
+
+    /**
+     * 根据用户 ID 获取患者登记信息
+     *
+     * @param userId 用户 ID
+     * @return 患者信息列表
+     */
+    List<Patient> getPatientByUserId(Long userId);
 
     /**
      * 添加患者登记信息

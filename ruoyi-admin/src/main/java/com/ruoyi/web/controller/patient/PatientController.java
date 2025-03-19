@@ -6,6 +6,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.patient.domain.Patient;
 import com.ruoyi.patient.service.PatientService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/patient")
 @RequiredArgsConstructor
+@Slf4j
 public class PatientController extends BaseController {
     private final PatientService patientService;
 
@@ -26,9 +28,10 @@ public class PatientController extends BaseController {
      * @return 患者登记列表
      */
     @GetMapping("/listAll")
-    public TableDataInfo listAllPatients() {
+    public TableDataInfo listAllPatients(Patient patient) {
+        log.info("获取所有患者登记列表:",patient);
         startPage();
-        List<Patient> allPatients = patientService.getAllPatients();
+        List<Patient> allPatients = patientService.getAllPatients(patient);
         return getDataTable(allPatients);
     }
 

@@ -23,16 +23,32 @@
         <result property="dialysisType" column="dialysis_type"/>
         <result property="firstDialysisDate" column="first_dialysis_date"/>
         <result property="dialysisFrequency" column="dialysis_frequency"/>
+        <result property="fileName" column="file_name"/>
     </resultMap>
 
     <!-- 获取所有患者登记信息 -->
-    <select id="getAllPatients" resultMap="PatientResult">
+    <select id="getAllPatients" parameterType="com.ruoyi.patient.domain.Patient" resultMap="PatientResult">
         SELECT * FROM tws_patient
+        WHERE 1=1
+        <if test="status != null ">
+            AND status = #{status}
+        </if>
+        <if test="organNeeded != null ">
+            AND organ_needed = #{organNeeded}
+        </if>
+        <if test="bloodType != null ">
+            AND blood_type = #{bloodType}
+        </if>
     </select>
 
     <!-- 根据患者ID获取登记信息 -->
     <select id="getPatientById" parameterType="Long" resultMap="PatientResult">
         SELECT * FROM tws_patient WHERE id = #{id}
+    </select>
+
+    <!-- 根据用户ID获取患者信息 -->
+    <select id="getPatientByUserId" parameterType="Long" resultMap="PatientResult">
+        SELECT * FROM tws_patient WHERE user_id = #{userId}
     </select>
 
     <!-- 根据用户ID获取患者信息 -->
@@ -58,12 +74,14 @@
             user_id, organ_needed, blood_type, medical_condition, emergency_status,
             status, hla_typing, hbv_infected, hcv_infected, hiv_infected,
             medical_status, self_assessment, create_time,
-            is_on_dialysis, dialysis_type, first_dialysis_date, dialysis_frequency
+            is_on_dialysis, dialysis_type, first_dialysis_date, dialysis_frequency,
+            file_name
         ) VALUES (
                      #{userId}, #{organNeeded}, #{bloodType}, #{medicalCondition}, #{emergencyStatus},
                      #{status}, #{hlaTyping}, #{hbvInfected}, #{hcvInfected}, #{hivInfected},
                      #{medicalStatus}, #{selfAssessment}, #{createTime},
-                     #{isOnDialysis}, #{dialysisType}, #{firstDialysisDate}, #{dialysisFrequency}
+                     #{isOnDialysis}, #{dialysisType}, #{firstDialysisDate}, #{dialysisFrequency},
+                     #{fileName}
                  )
     </insert>
 
@@ -85,7 +103,8 @@
             is_on_dialysis = #{isOnDialysis},
             dialysis_type = #{dialysisType},
             first_dialysis_date = #{firstDialysisDate},
-            dialysis_frequency = #{dialysisFrequency}
+            dialysis_frequency = #{dialysisFrequency},
+            file_name = #{fileName}
         WHERE id = #{id}
     </update>
 

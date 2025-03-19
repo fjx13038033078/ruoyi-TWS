@@ -1,5 +1,58 @@
 <template>
   <div>
+    <!-- 搜索框 -->
+    <el-form v-if="isAdmin" :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px" style="margin-bottom: 20px">
+      <el-form-item label="器官需求" prop="organNeeded">
+        <el-select
+          v-model="searchParams.organNeeded"
+          placeholder="器官需求"
+          clearable
+          style="width: 200px"
+        >
+          <el-option
+            v-for="(label, value) in organOptions"
+            :key="value"
+            :label="label"
+            :value="value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="血型" prop="bloodType">
+        <el-select
+          v-model="searchParams.bloodType"
+          placeholder="血型"
+          clearable
+          style="width: 200px"
+        >
+          <el-option
+            v-for="(label, value) in bloodOptions"
+            :key="value"
+            :label="label"
+            :value="value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="状态" prop="status">
+        <el-select
+          v-model="searchParams.status"
+          placeholder="状态"
+          clearable
+          style="width: 200px"
+        >
+          <el-option
+            v-for="(label, value) in statusOptions"
+            :key="value"
+            :label="label"
+            :value="value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+      </el-form-item>
+    </el-form>
+
     <!-- 添加患者按钮 -->
     <el-row :gutter="20" class="mb-20" style="margin-bottom: 10px; margin-left: 10px; margin-top: 10px">
       <el-col>
@@ -82,6 +135,9 @@
         <el-form-item label="透析频率" v-if="patientForm.organNeeded === 1 && patientForm.isOnDialysis === 1">
           <el-input v-model="patientForm.dialysisFrequency"></el-input>
         </el-form-item>
+        <el-form-item label="附件查看">
+          <FileUpload v-model="patientForm.fileName" :is-show-tip="false" :disabled="true"></FileUpload>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="viewDialogVisible = false">关闭</el-button>
@@ -91,6 +147,16 @@
     <!-- 编辑患者对话框 -->
     <el-dialog :visible.sync="editDialogVisible" :title="dialogTitle" width="50%">
       <el-form :model="patientForm" label-width="140px">
+        <el-form-item label="选择患者" v-if="isAdmin">
+          <el-select v-model="selectedUser" placeholder="请选择患者" @change="handleUserChange">
+            <el-option
+              v-for="item in userList"
+              :key="item.userId"
+              :label="item.nickName"
+              :value="item.userId">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="器官需求">
           <el-select v-model="patientForm.organNeeded">
             <el-option v-for="(label, value) in organOptions" :key="value" :label="label" :value="Number(value)"></el-option>
@@ -158,6 +224,9 @@
             <el-option v-for="(label, value) in statusOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="附件上传">
+          <FileUpload v-model="patientForm.fileName"></FileUpload>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取消</el-button>
@@ -169,6 +238,8 @@
 
 <script>
 import { listAllPatients, addPatient, updatePatient, deletePatient, getPatientById } from '@/api/patient/patient'
+import {getInfo} from "@/api/login";
+import {listStudent} from "@/api/system/user";
 
 export default {
   data() {
@@ -176,7 +247,15 @@ export default {
       loading: false,
       patientList: [],
       totalPatients: 0,
-      queryParams: {pageNum: 1, pageSize: 10},
+      queryParams: {
+        pageNum: 1,
+        pageSize: 10
+      },
+      searchParams: {
+        organNeeded: undefined,
+        bloodType: undefined,
+        status: undefined
+      },
       viewDialogVisible: false,
       editDialogVisible: false,
       dialogTitle: '',
@@ -190,16 +269,66 @@ export default {
       medicalStatusOptions: {0: '在重症监护室', 1: '住院', 2: '不在重症监护室', 3: '未住院'},
       selfAssessmentOptions: {0: '病情稳定', 1: '病情反复', 2: '情况危殆'},
       dialysisOptions: {0: '否', 1: '是'},
-      dialysisTypeOptions: {0: '血液透析', 1: '腹膜透析'}
+      dialysisTypeOptions: {0: '血液透析', 1: '腹膜透析'},
+      fileName: '',
+      isAdmin: false,
+      userList: [],
+      selectedUser: null
     }
   },
   created() {
-    this.fetchPatients()
+    this.fetchPatients();
+    this.getCurrentInfo();
   },
   methods: {
+    getCurrentInfo(){
+      getInfo().then(response => {
+        this.isAdmin = response.roles.includes('admin')
+        if (this.isAdmin) {
+          this.getPatientInfo()
+        } else {
+          // 非管理员用户清空搜索参数
+          this.searchParams = {
+            organNeeded: undefined,
+            bloodType: undefined,
+            status: undefined
+          }
+        }
+      })
+    },
+    getPatientInfo(){
+      listStudent().then(response => {
+        if (response.code === 200) {
+          this.userList = response.rows
+        }
+      })
+    },
+    handleUserChange(userId) {
+      const selectedUser = this.userList.find(user => user.userId === userId)
+      if (selectedUser) {
+        this.patientForm.userId = selectedUser.userId
+        this.patientForm.userName = selectedUser.userName
+      }
+    },
     fetchPatients() {
       this.loading = true
-      listAllPatients(this.queryParams).then(response => {
+      const params = {
+        ...this.queryParams,
+        ...this.searchParams
+      }
+
+      if (params.organNeeded !== undefined && params.organNeeded !== '') {
+        params.organNeeded = Number(params.organNeeded)
+      }
+      if (params.bloodType !== undefined && params.bloodType !== '') {
+        params.bloodType = Number(params.bloodType)
+      }
+      if (params.status !== undefined && params.status !== '') {
+        params.status = Number(params.status)
+      }
+
+      listAllPatients(params).then(response => {
+        console.log('params',params)
         this.patientList = response.rows
         this.totalPatients = response.total
         this.loading = false
@@ -208,6 +337,7 @@ export default {
     handleAddPatient() {
       this.dialogTitle = '新增患者'
       this.dialogButtonText = '提交'
+      this.selectedUser = null
       this.patientForm = {
         organNeeded: '',
         bloodType: '',
@@ -288,7 +418,34 @@ export default {
     },
     formatDialysisType(row) {
       return this.dialysisTypeOptions[row.dialysisType] || '-'
+    },
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.pageNum = 1;
+      this.fetchPatients();
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.searchParams = {
+        organNeeded: undefined,
+        bloodType: undefined,
+        status: undefined
+      };
+      this.handleQuery();
+    },
+    /** 表单重置 */
+    resetForm(formName) {
+      if (this.$refs[formName]) {
+        this.$refs[formName].resetFields();
+      }
     }
   }
 }
 </script>
+
+<style scoped>
+.el-form {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+</style>

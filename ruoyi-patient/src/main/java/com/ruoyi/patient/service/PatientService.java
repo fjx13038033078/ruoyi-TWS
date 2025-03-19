@@ -14,7 +14,7 @@ public interface PatientService {
      *
      * @return 患者登记列表
      */
-    List<Patient> getAllPatients();
+    List<Patient> getAllPatients(Patient patient);
 
     /**
      * 根据 ID 获取患者登记信息

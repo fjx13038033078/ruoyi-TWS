@@ -1,8 +1,12 @@
 package com.ruoyi.patient.service.impl;
 
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.patient.domain.Patient;
 import com.ruoyi.patient.mapper.PatientMapper;
 import com.ruoyi.patient.service.PatientService;
+import com.ruoyi.system.service.ISysRoleService;
+import com.ruoyi.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +23,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PatientServiceImpl implements PatientService {
 
-    private final PatientMapper patientMapper; // 依赖注入 Mapper
+    private final PatientMapper patientMapper;
+
+    private final ISysUserService iSysUserService;
+
+    private final ISysRoleService iSysRoleService;
 
     /**
      * 获取所有患者登记信息
@@ -27,9 +35,19 @@ public class PatientServiceImpl implements PatientService {
      * @return 患者登记列表
      */
     @Override
-    public List<Patient> getAllPatients() {
-        log.info("获取所有患者登记信息:",patientMapper.getAllPatients());
-        return patientMapper.getAllPatients();
+    public List<Patient> getAllPatients(Patient patient) {
+        log.info("获取所有患者登记信息:",patient);
+        Long userId = SecurityUtils.getUserId();
+        String role = iSysRoleService.selectStringRoleByUserId(userId);
+        if (role.equals("admin")) {
+            List<Patient> allPatients = patientMapper.getAllPatients(patient);
+            fillPatientInfo(allPatients);
+            return allPatients;
+        } else {
+            List<Patient> patientByUserId = patientMapper.getPatientByUserId(userId);
+            fillPatientInfo(patientByUserId);
+            return patientByUserId;
+        }
     }
 
     /**
@@ -52,8 +70,16 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public boolean addPatient(Patient patient) {
         patient.setCreateTime(LocalDateTime.now());
-        int rows = patientMapper.addPatient(patient);
-        return rows > 0;
+        Long userId = SecurityUtils.getUserId();
+        String role = iSysRoleService.selectStringRoleByUserId(userId);
+        if (role.equals("admin")) {
+            int rows = patientMapper.addPatient(patient);
+            return rows > 0;
+        } else {
+            patient.setUserId(userId);
+            int rows = patientMapper.addPatient(patient);
+            return rows > 0;
+        }
     }
 
     /**
@@ -78,5 +104,13 @@ public class PatientServiceImpl implements PatientService {
     public boolean deletePatient(Long id) {
         int rows = patientMapper.deletePatient(id);
         return rows > 0;
+    }
+
+    private void fillPatientInfo(List<Patient> patients) {
+        for (Patient patient : patients) {
+            Long userId = patient.getUserId();
+            String nickName = iSysUserService.selectUserById(userId).getNickName() != null ? iSysUserService.selectUserById(userId).getNickName() : "";
+            patient.setUserName(nickName);
+        }
     }
 }
