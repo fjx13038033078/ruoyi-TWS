@@ -24,6 +24,12 @@
         <result property="firstDialysisDate" column="first_dialysis_date"/>
         <result property="dialysisFrequency" column="dialysis_frequency"/>
         <result property="fileName" column="file_name"/>
+        <result property="creatinine" column="creatinine"/>
+        <result property="alt" column="alt"/>
+        <result property="ast" column="ast"/>
+        <result property="leukemia" column="leukemia"/>
+        <result property="fractureLastYear" column="fracture_last_year"/>
+        <result property="avascularNecrosis" column="avascular_necrosis"/>
     </resultMap>
 
     <!-- 获取所有患者登记信息 -->
@@ -75,13 +81,13 @@
             status, hla_typing, hbv_infected, hcv_infected, hiv_infected,
             medical_status, self_assessment, create_time,
             is_on_dialysis, dialysis_type, first_dialysis_date, dialysis_frequency,
-            file_name
+            file_name, creatinine, alt, ast, leukemia, fracture_last_year, avascular_necrosis
         ) VALUES (
                      #{userId}, #{organNeeded}, #{bloodType}, #{medicalCondition}, #{emergencyStatus},
                      #{status}, #{hlaTyping}, #{hbvInfected}, #{hcvInfected}, #{hivInfected},
                      #{medicalStatus}, #{selfAssessment}, #{createTime},
                      #{isOnDialysis}, #{dialysisType}, #{firstDialysisDate}, #{dialysisFrequency},
-                     #{fileName}
+                     #{fileName}, #{creatinine}, #{alt}, #{ast}, #{leukemia}, #{fractureLastYear}, #{avascularNecrosis}
                  )
     </insert>
 
@@ -104,7 +110,13 @@
             dialysis_type = #{dialysisType},
             first_dialysis_date = #{firstDialysisDate},
             dialysis_frequency = #{dialysisFrequency},
-            file_name = #{fileName}
+            file_name = #{fileName},
+            creatinine = #{creatinine},
+            alt = #{alt},
+            ast = #{ast},
+            leukemia = #{leukemia},
+            fracture_last_year = #{fractureLastYear},
+            avascular_necrosis = #{avascularNecrosis}
         WHERE id = #{id}
     </update>
 

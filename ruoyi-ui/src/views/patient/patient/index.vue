@@ -138,6 +138,26 @@
         <el-form-item label="附件查看">
           <FileUpload v-model="patientForm.fileName" :is-show-tip="false" :disabled="true"></FileUpload>
         </el-form-item>
+        <template v-if="patientForm.organNeeded === 1">
+          <el-form-item label="肌酐(umol/L)">
+            <el-input v-model="patientForm.creatinine"></el-input>
+          </el-form-item>
+          <el-form-item label="谷丙转氨酶(ALT,U/L)">
+            <el-input v-model="patientForm.alt"></el-input>
+          </el-form-item>
+          <el-form-item label="谷草转氨酶(AST,U/L)">
+            <el-input v-model="patientForm.ast"></el-input>
+          </el-form-item>
+          <el-form-item label="是否患有白血病">
+            <el-input :value="formatYesNo(patientForm.leukemia)"></el-input>
+          </el-form-item>
+          <el-form-item label="过去一年内是否曾骨折">
+            <el-input :value="formatYesNo(patientForm.fractureLastYear)"></el-input>
+          </el-form-item>
+          <el-form-item label="是否患有血管性骨坏死">
+            <el-input :value="formatYesNo(patientForm.avascularNecrosis)"></el-input>
+          </el-form-item>
+        </template>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="viewDialogVisible = false">关闭</el-button>
@@ -227,6 +247,32 @@
         <el-form-item label="附件上传">
           <FileUpload v-model="patientForm.fileName"></FileUpload>
         </el-form-item>
+        <template v-if="patientForm.organNeeded === 1">
+          <el-form-item label="肌酐(umol/L)">
+            <el-input v-model="patientForm.creatinine" type="number"></el-input>
+          </el-form-item>
+          <el-form-item label="谷丙转氨酶(ALT,U/L)">
+            <el-input v-model="patientForm.alt" type="number"></el-input>
+          </el-form-item>
+          <el-form-item label="谷草转氨酶(AST,U/L)">
+            <el-input v-model="patientForm.ast" type="number"></el-input>
+          </el-form-item>
+          <el-form-item label="是否患有白血病">
+            <el-select v-model="patientForm.leukemia">
+              <el-option v-for="(label, value) in yesNoOptions" :key="value" :label="label" :value="Number(value)"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="过去一年内是否曾骨折">
+            <el-select v-model="patientForm.fractureLastYear">
+              <el-option v-for="(label, value) in yesNoOptions" :key="value" :label="label" :value="Number(value)"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="是否患有血管性骨坏死">
+            <el-select v-model="patientForm.avascularNecrosis">
+              <el-option v-for="(label, value) in yesNoOptions" :key="value" :label="label" :value="Number(value)"></el-option>
+            </el-select>
+          </el-form-item>
+        </template>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取消</el-button>
@@ -273,7 +319,8 @@ export default {
       fileName: '',
       isAdmin: false,
       userList: [],
-      selectedUser: null
+      selectedUser: null,
+      yesNoOptions: {0: '否', 1: '是'}
     }
   },
   created() {
@@ -349,7 +396,13 @@ export default {
         selfAssessment: '',
         medicalCondition: '',
         status: 0,
-        isOnDialysis: 0
+        isOnDialysis: 0,
+        creatinine: '',
+        alt: '',
+        ast: '',
+        leukemia: 0,
+        fractureLastYear: 0,
+        avascularNecrosis: 0
       }
       this.editDialogVisible = true
     },
@@ -418,6 +471,9 @@ export default {
     },
     formatDialysisType(row) {
       return this.dialysisTypeOptions[row.dialysisType] || '-'
+    },
+    formatYesNo(value) {
+      return this.yesNoOptions[value] || '-'
     },
     /** 搜索按钮操作 */
     handleQuery() {

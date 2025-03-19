@@ -11,6 +11,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -87,4 +88,22 @@ public class Patient implements Serializable {
 
     /** 患者上传的文件 */
     private String fileName;
+
+    /** 肌酐（umol/L） */
+    private BigDecimal creatinine;
+
+    /** 谷丙转氨酶（ALT，U/L） */
+    private BigDecimal alt;
+
+    /** 谷草转氨酶（AST，U/L） */
+    private BigDecimal ast;
+
+    /** 是否患有白血病（0: 否, 1: 是） */
+    private Integer leukemia;
+
+    /** 过去一年内是否曾骨折（0: 否, 1: 是） */
+    private Integer fractureLastYear;
+
+    /** 是否患有血管性骨坏死（0: 否, 1: 是） */
+    private Integer avascularNecrosis;
 }
