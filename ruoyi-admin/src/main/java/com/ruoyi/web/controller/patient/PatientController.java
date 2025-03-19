@@ -29,7 +29,6 @@ public class PatientController extends BaseController {
      */
     @GetMapping("/listAll")
     public TableDataInfo listAllPatients(Patient patient) {
-        log.info("获取所有患者登记列表:",patient);
         startPage();
         List<Patient> allPatients = patientService.getAllPatients(patient);
         return getDataTable(allPatients);
