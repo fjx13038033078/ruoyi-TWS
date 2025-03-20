@@ -1,9 +1,11 @@
 package com.ruoyi.patient.mapper;
 
 import com.ruoyi.patient.domain.Patient;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author 范佳兴
@@ -33,6 +35,21 @@ public interface PatientMapper {
      * @return 患者信息列表
      */
     List<Patient> getPatientByUserId(Long userId);
+
+    /**
+     * 获取紧急患者数量
+     *
+     * @return 紧急患者数量
+     */
+    int countEmergencyPatients();
+
+    /**
+     * 获取紧急患者数量
+     *
+     * @return 紧急患者数量
+     */
+    @MapKey("organNeeded")
+    Map<String ,Integer> countPatientsByOrganNeeded();
 
     /**
      * 添加患者登记信息

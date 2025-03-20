@@ -18,6 +18,22 @@ export function getPatientById(patientId) {
   })
 }
 
+// 统计紧急状态的患者人数
+export function countEmergencyPatients() {
+  return request({
+    url: '/patient/countEmergencyPatients',
+    method: 'get'
+  })
+}
+
+// 统计按器官需求分类的患者人数
+export function countPatientsByOrganNeeded() {
+  return request({
+    url: '/patient/countPatientsByOrganNeeded',
+    method: 'get'
+  })
+}
+
 // 添加患者登记信息
 export function addPatient(data) {
   return request({

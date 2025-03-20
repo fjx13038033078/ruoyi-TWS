@@ -12,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author 范佳兴
@@ -59,6 +61,16 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Patient getPatientById(Long id) {
         return patientMapper.getPatientById(id);
+    }
+
+    @Override
+    public int countEmergencyPatients() {
+        return patientMapper.countEmergencyPatients();
+    }
+
+    @Override
+    public Map<String, Integer> countPatientsByOrganNeeded() {
+        return patientMapper.countPatientsByOrganNeeded();
     }
 
     /**

@@ -3,6 +3,7 @@ package com.ruoyi.patient.service;
 import com.ruoyi.patient.domain.Patient;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author 范佳兴
@@ -23,6 +24,20 @@ public interface PatientService {
      * @return 患者信息
      */
     Patient getPatientById(Long id);
+
+    /**
+     * 获取紧急患者数量
+     *
+     * @return 紧急患者数量
+     */
+    int countEmergencyPatients();
+
+    /**
+     * 根据组织需求统计患者数量
+     *
+     * @return 组织需求与患者数量的映射关系
+     */
+    Map<String ,Integer> countPatientsByOrganNeeded();
 
     /**
      * 添加患者登记信息

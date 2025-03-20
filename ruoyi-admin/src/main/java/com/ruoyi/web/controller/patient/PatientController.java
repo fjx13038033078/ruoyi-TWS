@@ -46,6 +46,21 @@ public class PatientController extends BaseController {
     }
 
     /**
+     * 获取紧急患者数量
+     *
+     * @return 紧急患者数量
+     */
+    @GetMapping("/countEmergencyPatients")
+    public AjaxResult countEmergencyPatients() {
+        return AjaxResult.success(patientService.countEmergencyPatients());
+    }
+
+    @GetMapping("/countPatientsByOrganNeeded")
+    public AjaxResult countPatientsByOrganNeeded() {
+        return AjaxResult.success(patientService.countPatientsByOrganNeeded());
+    }
+
+    /**
      * 添加患者登记信息
      *
      * @param patient 患者对象

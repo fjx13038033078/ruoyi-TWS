@@ -57,11 +57,6 @@
         SELECT * FROM tws_patient WHERE user_id = #{userId}
     </select>
 
-    <!-- 根据用户ID获取患者信息 -->
-    <select id="getPatientsByUserId" parameterType="Long" resultMap="PatientResult">
-        SELECT * FROM tws_patient WHERE user_id = #{userId}
-    </select>
-
     <!-- 统计紧急状态的患者人数 -->
     <select id="countEmergencyPatients" resultType="int">
         SELECT COUNT(*) FROM tws_patient WHERE emergency_status = 1
