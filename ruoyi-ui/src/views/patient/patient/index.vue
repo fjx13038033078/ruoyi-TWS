@@ -65,6 +65,14 @@
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          <el-button
+            type="warning"
+            plain
+            icon="el-icon-download"
+            size="mini"
+            @click="handleExport"
+            v-hasPermi="['patient:export']"
+          >导出</el-button>
       </el-form-item>
     </el-form>
 
@@ -508,7 +516,13 @@ export default {
       if (this.$refs[formName]) {
         this.$refs[formName].resetFields();
       }
-    }
+    },
+    /** 导出按钮操作 */
+    handleExport() {
+      this.download('patient/export', {
+        ...this.queryParams
+      }, `user_${new Date().getTime()}.xlsx`)
+    },
   }
 }
 </script>

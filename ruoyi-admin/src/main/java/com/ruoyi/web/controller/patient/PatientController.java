@@ -2,13 +2,16 @@ package com.ruoyi.web.controller.patient;
 
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.patient.domain.Patient;
 import com.ruoyi.patient.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -33,6 +36,21 @@ public class PatientController extends BaseController {
         List<Patient> allPatients = patientService.getAllPatients(patient);
         return getDataTable(allPatients);
     }
+
+    /**
+     * 导出患者登记列表
+     *
+     * @param patient 患者对象
+     * @return 操作结果
+     */
+    @PostMapping("/export")
+    public void export(HttpServletResponse response, Patient patient)
+    {
+        List<Patient> allPatients = patientService.getAllPatients(patient);
+        ExcelUtil<Patient> util = new ExcelUtil<Patient>(Patient.class);
+        util.exportExcel(response, allPatients, "等待患者数据");
+    }
+
 
     /**
      * 根据患者 ID 获取患者详情
