@@ -521,7 +521,7 @@ export default {
     handleExport() {
       this.download('patient/export', {
         ...this.queryParams
-      }, `user_${new Date().getTime()}.xlsx`)
+      }, `patient_${new Date().getTime()}.xlsx`)
     },
   }
 }
