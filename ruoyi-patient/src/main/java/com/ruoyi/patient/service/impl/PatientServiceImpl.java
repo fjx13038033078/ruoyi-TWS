@@ -60,7 +60,10 @@ public class PatientServiceImpl implements PatientService {
      */
     @Override
     public Patient getPatientById(Long id) {
-        return patientMapper.getPatientById(id);
+        Patient patientById = patientMapper.getPatientById(id);
+        String nickName = iSysUserService.selectUserById(patientById.getUserId()).getNickName();
+        patientById.setUserName(nickName);
+        return patientById;
     }
 
     @Override

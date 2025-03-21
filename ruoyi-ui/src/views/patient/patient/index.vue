@@ -80,7 +80,7 @@
     <!-- 患者列表 -->
     <el-table :data="patientList" v-loading="loading" style="width: 100%" border>
       <el-table-column label="登记ID" prop="id" align="center"></el-table-column>
-      <el-table-column label="患者姓名" prop="nickName" align="center"></el-table-column>
+      <el-table-column label="患者姓名" prop="userName" align="center"></el-table-column>
       <el-table-column label="器官需求" prop="organNeeded" align="center" :formatter="formatOrgan"></el-table-column>
       <el-table-column label="血型" prop="bloodType" align="center" :formatter="formatBlood"></el-table-column>
       <el-table-column label="紧急状态" prop="emergencyStatus" align="center" :formatter="formatEmergency"></el-table-column>
@@ -103,7 +103,7 @@
     <el-dialog :visible.sync="viewDialogVisible" title="查看患者" width="50%">
       <el-form :model="patientForm" label-width="140px" disabled>
         <el-form-item label="患者姓名">
-          <el-input v-model="patientForm.nickName"></el-input>
+          <el-input v-model="patientForm.userName"></el-input>
         </el-form-item>
         <el-form-item label="器官需求">
           <el-input :value="formatOrgan(patientForm)"></el-input>
