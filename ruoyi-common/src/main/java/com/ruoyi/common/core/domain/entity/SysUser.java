@@ -77,7 +77,7 @@ public class SysUser extends BaseEntity {
     /**
      * 帐号状态（0正常 1停用）
      */
-    @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
+//    @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
     private String status;
 
     /**
@@ -88,22 +88,22 @@ public class SysUser extends BaseEntity {
     /**
      * 最后登录IP
      */
-    @Excel(name = "最后登录IP", type = Type.EXPORT)
+//    @Excel(name = "最后登录IP", type = Type.EXPORT)
     private String loginIp;
 
     /**
      * 最后登录时间
      */
-    @Excel(name = "最后登录时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
+//    @Excel(name = "最后登录时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
     private Date loginDate;
 
     /**
      * 部门对象
      */
-    @Excels({
-            @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT),
-            @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
-    })
+//    @Excels({
+//            @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT),
+//            @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
+//    })
     private SysDept dept;
 
     /**
