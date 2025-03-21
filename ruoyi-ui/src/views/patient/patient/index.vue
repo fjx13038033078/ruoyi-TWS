@@ -240,6 +240,11 @@
             <el-option v-for="(label, value) in dialysisOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="透析类型" v-if="patientForm.organNeeded === 1 && patientForm.isOnDialysis === 1">
+          <el-select v-model="patientForm.dialysisType">
+            <el-option v-for="(label, value) in dialysisTypeOptions" :key="value" :label="label" :value="Number(value)"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="初次透析时间" v-if="patientForm.organNeeded === 1 && patientForm.isOnDialysis === 1">
           <el-date-picker v-model="patientForm.firstDialysisDate" type="date" placeholder="选择日期"></el-date-picker>
         </el-form-item>
@@ -317,12 +322,14 @@ export default {
       patientForm: {},
       organOptions: {0: '肝', 1: '肾'},
       bloodOptions: {0: 'A', 1: 'B', 2: 'AB', 3: 'O'},
-      statusOptions: {0: '审核中', 1: '等待移植', 2: '准备移植', 3: '完成移植', 4: '已放弃'},
+      // statusOptions: {0: '审核中', 1: '等待移植', 2: '准备移植', 3: '完成移植', 4: '已放弃'},
+      statusOptions: { 1: '等待移植', 4: '已放弃'},
       emergencyOptions: {0: '否', 1: '是'},
       infectionOptions: {0: '否', 1: '是'},
       medicalStatusOptions: {0: '在重症监护室', 1: '住院', 2: '不在重症监护室', 3: '未住院'},
       selfAssessmentOptions: {0: '病情稳定', 1: '病情反复', 2: '情况危殆'},
       dialysisOptions: {0: '否', 1: '是'},
+      dialysisTypeOptions: {0: '血液透析', 1: '腹膜透析'},
       fileName: '',
       isAdmin: false,
       userList: [],
@@ -402,7 +409,7 @@ export default {
         medicalStatus: '',
         selfAssessment: '',
         medicalCondition: '',
-        status: 0,
+        status: 1,
         isOnDialysis: 0,
         creatinine: '',
         alt: '',
@@ -475,6 +482,9 @@ export default {
     },
     formatDialysis(row) {
       return this.dialysisOptions[row.isOnDialysis] || '-'
+    },
+    formatDialysisType(row) {
+      return this.dialysisTypeOptions[row.dialysisType] || '-'
     },
     formatYesNo(value) {
       return this.yesNoOptions[value] || '-'
