@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author 范佳兴
+ * @Author 大黄蜂
  * @date 2025/3/11 9:54
  */
 public interface PatientService {
