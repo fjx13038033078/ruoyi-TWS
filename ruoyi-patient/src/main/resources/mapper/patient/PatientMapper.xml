@@ -45,6 +45,9 @@
         <if test="bloodType != null ">
             AND blood_type = #{bloodType}
         </if>
+        <if test="emergencyStatus != null ">
+            AND emergency_status = #{emergencyStatus}
+        </if>
     </select>
 
     <!-- 根据患者ID获取登记信息 -->

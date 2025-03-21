@@ -47,6 +47,21 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="紧急状态" prop="emergencyStatus">
+        <el-select
+          v-model="searchParams.emergencyStatus"
+          placeholder="紧急状态"
+          clearable
+          style="width: 200px"
+        >
+          <el-option
+            v-for="(label, value) in emergencyOptions"
+            :key="value"
+            :label="label"
+            :value="value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -65,7 +80,7 @@
     <!-- 患者列表 -->
     <el-table :data="patientList" v-loading="loading" style="width: 100%" border>
       <el-table-column label="登记ID" prop="id" align="center"></el-table-column>
-      <el-table-column label="患者姓名" prop="userName" align="center"></el-table-column>
+      <el-table-column label="患者姓名" prop="nickName" align="center"></el-table-column>
       <el-table-column label="器官需求" prop="organNeeded" align="center" :formatter="formatOrgan"></el-table-column>
       <el-table-column label="血型" prop="bloodType" align="center" :formatter="formatBlood"></el-table-column>
       <el-table-column label="紧急状态" prop="emergencyStatus" align="center" :formatter="formatEmergency"></el-table-column>
@@ -87,11 +102,8 @@
     <!-- 查看患者对话框 -->
     <el-dialog :visible.sync="viewDialogVisible" title="查看患者" width="50%">
       <el-form :model="patientForm" label-width="140px" disabled>
-        <el-form-item label="患者ID">
-          <el-input v-model="patientForm.userId"></el-input>
-        </el-form-item>
         <el-form-item label="患者姓名">
-          <el-input v-model="patientForm.userName"></el-input>
+          <el-input v-model="patientForm.nickName"></el-input>
         </el-form-item>
         <el-form-item label="器官需求">
           <el-input :value="formatOrgan(patientForm)"></el-input>
@@ -228,11 +240,6 @@
             <el-option v-for="(label, value) in dialysisOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="透析类型" v-if="patientForm.organNeeded === 1 && patientForm.isOnDialysis === 1">
-          <el-select v-model="patientForm.dialysisType">
-            <el-option v-for="(label, value) in dialysisTypeOptions" :key="value" :label="label" :value="Number(value)"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="初次透析时间" v-if="patientForm.organNeeded === 1 && patientForm.isOnDialysis === 1">
           <el-date-picker v-model="patientForm.firstDialysisDate" type="date" placeholder="选择日期"></el-date-picker>
         </el-form-item>
@@ -300,7 +307,8 @@ export default {
       searchParams: {
         organNeeded: undefined,
         bloodType: undefined,
-        status: undefined
+        status: undefined,
+        emergencyStatus: undefined
       },
       viewDialogVisible: false,
       editDialogVisible: false,
@@ -315,7 +323,6 @@ export default {
       medicalStatusOptions: {0: '在重症监护室', 1: '住院', 2: '不在重症监护室', 3: '未住院'},
       selfAssessmentOptions: {0: '病情稳定', 1: '病情反复', 2: '情况危殆'},
       dialysisOptions: {0: '否', 1: '是'},
-      dialysisTypeOptions: {0: '血液透析', 1: '腹膜透析'},
       fileName: '',
       isAdmin: false,
       userList: [],
@@ -468,9 +475,6 @@ export default {
     },
     formatDialysis(row) {
       return this.dialysisOptions[row.isOnDialysis] || '-'
-    },
-    formatDialysisType(row) {
-      return this.dialysisTypeOptions[row.dialysisType] || '-'
     },
     formatYesNo(value) {
       return this.yesNoOptions[value] || '-'
