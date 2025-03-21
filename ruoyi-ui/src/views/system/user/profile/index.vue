@@ -24,6 +24,10 @@
                 <div class="pull-right">{{ user.email }}</div>
               </li>
               <li class="list-group-item">
+                <svg-icon icon-class="phone" />紧急联系人
+                <div class="pull-right">{{ user.emergencyContact }}</div>
+              </li>
+              <li class="list-group-item">
                 <svg-icon icon-class="peoples" />身份证号
                 <div class="pull-right">{{ user.idnumber }}</div>
               </li>

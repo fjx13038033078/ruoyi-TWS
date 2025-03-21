@@ -149,6 +149,27 @@ public class SysUser extends BaseEntity {
     @Excel(name = "居住地址")
     private String address;
 
+    // 紧急联系人
+    @Excel(name = "紧急联系人")
+    private String emergencyContact;
+
+    public String getIdnumber() {
+        return idnumber;
+    }
+
+    public void setIdnumber(String idnumber) {
+        this.idnumber = idnumber;
+    }
+
+    @Size(min = 0, max = 11, message = "手机号码长度不能超过11个字符")
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
+
     public SysUser() {
 
     }
@@ -183,14 +204,6 @@ public class SysUser extends BaseEntity {
 
     public BigDecimal getBalance() {
         return balance;
-    }
-
-    public String getidnumber() {
-        return idnumber;
-    }
-
-    public void setidnumber(String idnumber) {
-        this.idnumber = idnumber;
     }
 
     public Integer getAge() {
@@ -372,9 +385,10 @@ public class SysUser extends BaseEntity {
                 .append("remark", getRemark())
                 .append("dept", getDept())
                 .append("balance", getBalance())
-                .append("idnumber", getidnumber())
+                .append("idnumber", getIdnumber())
                 .append("age", getAge())
                 .append("address", getAddress())
+                .append("emergencyContact", getEmergencyContact())
                 .toString();
     }
 }

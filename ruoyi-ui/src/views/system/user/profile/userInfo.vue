@@ -9,6 +9,9 @@
     <el-form-item label="邮箱" prop="email">
       <el-input v-model="form.email" maxlength="50" />
     </el-form-item>
+    <el-form-item label="紧急联系人" prop="emergencyContact">
+      <el-input v-model="form.emergencyContact" maxlength="11" />
+    </el-form-item>
     <el-form-item label="身份证号" prop="idnumber">
       <el-input v-model="form.idnumber" type="number" maxlength="50" />
     </el-form-item>
@@ -46,7 +49,7 @@ export default {
       // 表单校验
       rules: {
         nickName: [
-          { required: true, message: "用户昵称不能为空", trigger: "blur" }
+          { required: true, message: "用户姓名不能为空", trigger: "blur" }
         ],
         email: [
           { required: true, message: "邮箱地址不能为空", trigger: "blur" },
@@ -58,6 +61,14 @@ export default {
         ],
         phonenumber: [
           { required: true, message: "手机号码不能为空", trigger: "blur" },
+          {
+            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
+            message: "请输入正确的手机号码",
+            trigger: "blur"
+          }
+        ],
+        emergencyContact: [
+          { required: true, message: "紧急联系人号码不能为空", trigger: "blur" },
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
             message: "请输入正确的手机号码",
@@ -89,6 +100,7 @@ export default {
             this.user.idnumber = this.form.idnumber;
             this.user.age = this.form.age;
             this.user.address = this.form.address;
+            this.user.emergencyContact = this.form.emergencyContact;
           });
         }
       });
