@@ -316,7 +316,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="idnumber != null and idnumber != ''">#{idnumber},</if>
 			<if test="age != null and age != ''">#{age},</if>
 			<if test="address != null and address != ''">#{address},</if>
-			<if test="emergencyContact != null and emergencyContact != ''">#{emergency_contact},</if>
+			<if test="emergencyContact != null and emergencyContact != ''">#{emergencyContact},</if>
  			sysdate()
  		)
 	</insert>

@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @Author 大黄蜂
@@ -115,7 +116,7 @@ public class Patient implements Serializable {
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @Excel(name = "创建时间")
+    @Excel(name = "创建时间",type = Excel.Type.EXPORT)
     private LocalDateTime createTime;
 
     /**
@@ -133,8 +134,9 @@ public class Patient implements Serializable {
     /**
      * 初次透析时间，仅适用于肾移植
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @Excel(name = "初次透析时间")
-    private LocalDate firstDialysisDate;
+    private Date firstDialysisDate;
 
     /**
      * 透析频率（如每周3次，仅适用于肾移植）

@@ -73,21 +73,79 @@
     </select>
 
     <!-- 插入患者登记信息 -->
-    <insert id="addPatient" parameterType="com.ruoyi.patient.domain.Patient">
+<!--    <insert id="addPatient" parameterType="com.ruoyi.patient.domain.Patient">-->
+<!--        INSERT INTO tws_patient (-->
+<!--            user_id, organ_needed, blood_type, medical_condition, emergency_status,-->
+<!--            status, hla_typing, hbv_infected, hcv_infected, hiv_infected,-->
+<!--            medical_status, self_assessment, create_time,-->
+<!--            is_on_dialysis, dialysis_type, first_dialysis_date, dialysis_frequency,-->
+<!--            file_name, creatinine, alt, ast, leukemia, fracture_last_year, avascular_necrosis-->
+<!--        ) VALUES (-->
+<!--                     #{userId}, #{organNeeded}, #{bloodType}, #{medicalCondition}, #{emergencyStatus},-->
+<!--                     #{status}, #{hlaTyping}, #{hbvInfected}, #{hcvInfected}, #{hivInfected},-->
+<!--                     #{medicalStatus}, #{selfAssessment}, #{createTime},-->
+<!--                     #{isOnDialysis}, #{dialysisType}, #{firstDialysisDate}, #{dialysisFrequency},-->
+<!--                     #{fileName}, #{creatinine}, #{alt}, #{ast}, #{leukemia}, #{fractureLastYear}, #{avascularNecrosis}-->
+<!--                 )-->
+<!--    </insert>-->
+    <insert id="addPatient" parameterType="com.ruoyi.patient.domain.Patient" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tws_patient (
-            user_id, organ_needed, blood_type, medical_condition, emergency_status,
-            status, hla_typing, hbv_infected, hcv_infected, hiv_infected,
-            medical_status, self_assessment, create_time,
-            is_on_dialysis, dialysis_type, first_dialysis_date, dialysis_frequency,
-            file_name, creatinine, alt, ast, leukemia, fracture_last_year, avascular_necrosis
+        <trim suffixOverrides=",">
+            <if test="userId != null and userId != 0">user_id,</if>
+            <if test="organNeeded != null">organ_needed,</if>
+            <if test="bloodType != null">blood_type,</if>
+            <if test="medicalCondition != null and medicalCondition != ''">medical_condition,</if>
+            <if test="emergencyStatus != null">emergency_status,</if>
+            <if test="status != null">status,</if>
+            <if test="hlaTyping != null and hlaTyping != ''">hla_typing,</if>
+            <if test="hbvInfected != null">hbv_infected,</if>
+            <if test="hcvInfected != null">hcv_infected,</if>
+            <if test="hivInfected != null">hiv_infected,</if>
+            <if test="medicalStatus != null">medical_status,</if>
+            <if test="selfAssessment != null">self_assessment,</if>
+            create_time,
+            <if test="isOnDialysis != null">is_on_dialysis,</if>
+            <if test="dialysisType != null and dialysisType != ''">dialysis_type,</if>
+            <if test="firstDialysisDate != null">first_dialysis_date,</if>
+            <if test="dialysisFrequency != null">dialysis_frequency,</if>
+            <if test="fileName != null and fileName != ''">file_name,</if>
+            <if test="creatinine != null">creatinine,</if>
+            <if test="alt != null">alt,</if>
+            <if test="ast != null">ast,</if>
+            <if test="leukemia != null">leukemia,</if>
+            <if test="fractureLastYear != null">fracture_last_year,</if>
+            <if test="avascularNecrosis != null">avascular_necrosis</if>
+        </trim>
         ) VALUES (
-                     #{userId}, #{organNeeded}, #{bloodType}, #{medicalCondition}, #{emergencyStatus},
-                     #{status}, #{hlaTyping}, #{hbvInfected}, #{hcvInfected}, #{hivInfected},
-                     #{medicalStatus}, #{selfAssessment}, #{createTime},
-                     #{isOnDialysis}, #{dialysisType}, #{firstDialysisDate}, #{dialysisFrequency},
-                     #{fileName}, #{creatinine}, #{alt}, #{ast}, #{leukemia}, #{fractureLastYear}, #{avascularNecrosis}
-                 )
+        <trim suffixOverrides=",">
+            <if test="userId != null and userId != 0">#{userId},</if>
+            <if test="organNeeded != null">#{organNeeded},</if>
+            <if test="bloodType != null">#{bloodType},</if>
+            <if test="medicalCondition != null and medicalCondition != ''">#{medicalCondition},</if>
+            <if test="emergencyStatus != null">#{emergencyStatus},</if>
+            <if test="status != null">#{status},</if>
+            <if test="hlaTyping != null and hlaTyping != ''">#{hlaTyping},</if>
+            <if test="hbvInfected != null">#{hbvInfected},</if>
+            <if test="hcvInfected != null">#{hcvInfected},</if>
+            <if test="hivInfected != null">#{hivInfected},</if>
+            <if test="medicalStatus != null">#{medicalStatus},</if>
+            <if test="selfAssessment != null">#{selfAssessment},</if>
+            sysdate(),
+            <if test="isOnDialysis != null">#{isOnDialysis},</if>
+            <if test="dialysisType != null and dialysisType != ''">#{dialysisType},</if>
+            <if test="firstDialysisDate != null">#{firstDialysisDate},</if>
+            <if test="dialysisFrequency != null">#{dialysisFrequency},</if>
+            <if test="fileName != null and fileName != ''">#{fileName},</if>
+            <if test="creatinine != null">#{creatinine},</if>
+            <if test="alt != null">#{alt},</if>
+            <if test="ast != null">#{ast},</if>
+            <if test="leukemia != null">#{leukemia},</if>
+            <if test="fractureLastYear != null">#{fractureLastYear},</if>
+            <if test="avascularNecrosis != null">#{avascularNecrosis}</if>
+        </trim>
+        )
     </insert>
+
 
     <!-- 更新患者登记信息 -->
     <update id="updatePatient" parameterType="com.ruoyi.patient.domain.Patient">

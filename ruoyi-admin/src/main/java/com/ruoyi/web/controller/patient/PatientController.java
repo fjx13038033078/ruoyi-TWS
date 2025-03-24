@@ -10,6 +10,7 @@ import com.ruoyi.patient.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -51,6 +52,29 @@ public class PatientController extends BaseController {
         util.exportExcel(response, allPatients, "等待患者数据");
     }
 
+    @PostMapping("/importTemplate")
+    public void importTemplate(HttpServletResponse response)
+    {
+        ExcelUtil<Patient> util = new ExcelUtil<Patient>(Patient.class);
+        util.importTemplateExcel(response, "患者数据");
+    }
+
+    /**
+     * 导入患者数据
+     *
+     * @param file          导入文件
+     * @param updateSupport 是否更新已存在数据
+     * @return 操作结果
+     */
+    @PostMapping("/importData")
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
+    {
+        ExcelUtil<Patient> util = new ExcelUtil<Patient>(Patient.class);
+        List<Patient> patientList = util.importExcel(file.getInputStream());
+        String operName = getUsername();
+        String message = patientService.importPatient(patientList, updateSupport, operName);
+        return success(message);
+    }
 
     /**
      * 根据患者 ID 获取患者详情
@@ -110,4 +134,5 @@ public class PatientController extends BaseController {
     public AjaxResult deletePatient(@RequestParam Long patientId) {
         return toAjax(patientService.deletePatient(patientId));
     }
+
 }

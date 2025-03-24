@@ -37,7 +37,7 @@ public interface PatientService {
      *
      * @return 组织需求与患者数量的映射关系
      */
-    Map<String ,Integer> countPatientsByOrganNeeded();
+    Map<String, Integer> countPatientsByOrganNeeded();
 
     /**
      * 添加患者登记信息
@@ -62,4 +62,14 @@ public interface PatientService {
      * @return 删除成功返回 true，否则返回 false
      */
     boolean deletePatient(Long id);
+
+    /**
+     * 导入患者信息
+     *
+     * @param patientList     患者信息列表
+     * @param isUpdateSupport 是否更新已存在的患者信息
+     * @param operName        操作人名称
+     * @return 导入结果信息
+     */
+    String importPatient(List<Patient> patientList, Boolean isUpdateSupport, String operName);
 }
