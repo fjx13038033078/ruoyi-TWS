@@ -122,7 +122,7 @@ public class Patient implements Serializable {
     /**
      * 是否正在透析（0: 否, 1: 是，仅适用于肾移植）
      */
-    @Excel(name = "是否正在透析", readConverterExp = "0=否, 1=是")
+    @Excel(name = "是否正在透析", readConverterExp = "0=否,1=是")
     private Integer isOnDialysis;
 
     /**
@@ -135,7 +135,7 @@ public class Patient implements Serializable {
      * 初次透析时间，仅适用于肾移植
      */
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    @Excel(name = "初次透析时间")
+    @Excel(name = "初次透析时间", dateFormat = "yyyy-MM-dd")
     private Date firstDialysisDate;
 
     /**
