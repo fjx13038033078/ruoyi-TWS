@@ -1,5 +1,5 @@
 
-# TWS（Transplant waiting system的缩写）
+# TWS（Transplant waiting system 的缩写）
 
 ## 内置功能
 
