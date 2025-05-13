@@ -43,6 +43,8 @@ public interface PatientMapper {
      */
     int countEmergencyPatients();
 
+    int countPatients();
+
     /**
      * 获取紧急患者数量
      *

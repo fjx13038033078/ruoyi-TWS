@@ -97,6 +97,11 @@ public class PatientController extends BaseController {
         return AjaxResult.success(patientService.countEmergencyPatients());
     }
 
+    @GetMapping("/countPatients")
+    public AjaxResult countPatients() {
+        return AjaxResult.success(patientService.countPatients());
+    }
+
     @GetMapping("/countPatientsByOrganNeeded")
     public AjaxResult countPatientsByOrganNeeded() {
         return AjaxResult.success(patientService.countPatientsByOrganNeeded());

@@ -1,11 +1,12 @@
 <script>
-import { countEmergencyPatients, countPatientsByOrganNeeded } from '@/api/patient/patient'
+import { countEmergencyPatients, countPatientsByOrganNeeded, countPatients } from '@/api/patient/patient'
 import * as echarts from 'echarts'
 
 export default {
   name: 'PatientStatistics',
   data() {
     return {
+      totalPatients: 0,
       emergencyCount: 0,
       organChart: null,
       organOptions: {
@@ -24,11 +25,19 @@ export default {
   },
   methods: {
     async initData() {
+      // 获取患者总数
+      try {
+        const totalResponse = await countPatients()
+        this.totalPatients = totalResponse.data
+      } catch (error) {
+        console.error('获取患者总数失败:', error)
+        this.$message.error('获取患者总数失败')
+      }
+
       // 获取紧急患者数量
       try {
         const emergencyResponse = await countEmergencyPatients()
         this.emergencyCount = emergencyResponse.data
-        console.log('紧急患者数量:', emergencyResponse.data)
       } catch (error) {
         console.error('获取紧急患者数量失败:', error)
         this.$message.error('获取紧急患者数量失败')
@@ -38,7 +47,6 @@ export default {
       try {
         const organResponse = await countPatientsByOrganNeeded()
         this.initOrganChart(organResponse.data)
-        console.log('器官需求分布:', organResponse.data)
       } catch (error) {
         console.error('获取器官需求分布失败:', error)
         this.$message.error('获取器官需求分布失败')
@@ -110,6 +118,19 @@ export default {
 <template>
   <div class="app-container">
     <el-row :gutter="20">
+      <!-- 患者总数卡片 -->
+      <el-col :span="8">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>患者总数</span>
+          </div>
+          <div class="total-count">
+            <div class="count-number">{{ totalPatients }}</div>
+            <div class="count-label">位患者</div>
+          </div>
+        </el-card>
+      </el-col>
+      
       <!-- 紧急患者数量卡片 -->
       <el-col :span="8">
         <el-card class="box-card">
@@ -143,6 +164,7 @@ export default {
   padding: 20px;
 }
 
+.total-count,
 .emergency-count {
   text-align: center;
   padding: 20px;

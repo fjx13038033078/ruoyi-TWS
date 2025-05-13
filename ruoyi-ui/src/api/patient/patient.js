@@ -26,6 +26,14 @@ export function countEmergencyPatients() {
   })
 }
 
+// 统计患者总人数
+export function countPatients() {
+  return request({
+    url: '/patient/countPatients',
+    method: 'get'
+  })
+}
+
 // 统计按器官需求分类的患者人数
 export function countPatientsByOrganNeeded() {
   return request({

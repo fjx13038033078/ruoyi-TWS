@@ -194,7 +194,7 @@
 
     <!-- 编辑患者对话框 -->
     <el-dialog :visible.sync="editDialogVisible" :title="dialogTitle" width="50%">
-      <el-form :model="patientForm" label-width="140px">
+      <el-form ref="patientForm" :model="patientForm" label-width="140px" :rules="rules">
         <el-form-item label="选择患者" v-if="isAdmin">
           <el-select v-model="selectedUser" placeholder="请选择患者" @change="handleUserChange">
             <el-option
@@ -205,98 +205,112 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="器官需求">
-          <el-select v-model="patientForm.organNeeded">
+        <el-form-item label="器官需求" prop="organNeeded" required>
+          <el-select v-model="patientForm.organNeeded" placeholder="请选择器官需求">
             <el-option v-for="(label, value) in organOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="血型">
-          <el-select v-model="patientForm.bloodType">
+        <el-form-item label="血型" prop="bloodType" required>
+          <el-select v-model="patientForm.bloodType" placeholder="请选择血型">
             <el-option v-for="(label, value) in bloodOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="紧急状态">
-          <el-select v-model="patientForm.emergencyStatus">
+        <el-form-item label="紧急状态" prop="emergencyStatus" required>
+          <el-select v-model="patientForm.emergencyStatus" placeholder="请选择紧急状态">
             <el-option v-for="(label, value) in emergencyOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="HLA配型信息">
+        <el-form-item label="HLA配型信息" prop="hlaTyping">
           <el-input v-model="patientForm.hlaTyping"></el-input>
         </el-form-item>
-        <el-form-item label="乙肝感染">
-          <el-select v-model="patientForm.hbvInfected">
+        <el-form-item label="乙肝感染" prop="hbvInfected" required>
+          <el-select v-model="patientForm.hbvInfected" placeholder="请选择是否感染">
             <el-option v-for="(label, value) in infectionOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="丙肝感染">
-          <el-select v-model="patientForm.hcvInfected">
+        <el-form-item label="丙肝感染" prop="hcvInfected" required>
+          <el-select v-model="patientForm.hcvInfected" placeholder="请选择是否感染">
             <el-option v-for="(label, value) in infectionOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="艾滋病感染">
-          <el-select v-model="patientForm.hivInfected">
+        <el-form-item label="艾滋病感染" prop="hivInfected" required>
+          <el-select v-model="patientForm.hivInfected" placeholder="请选择是否感染">
             <el-option v-for="(label, value) in infectionOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="医疗状态">
-          <el-select v-model="patientForm.medicalStatus">
+        <el-form-item label="医疗状态" prop="medicalStatus" required>
+          <el-select v-model="patientForm.medicalStatus" placeholder="请选择医疗状态">
             <el-option v-for="(label, value) in medicalStatusOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="自评状态">
-          <el-select v-model="patientForm.selfAssessment">
+        <el-form-item label="自评状态" prop="selfAssessment" required>
+          <el-select v-model="patientForm.selfAssessment" placeholder="请选择自评状态">
             <el-option v-for="(label, value) in selfAssessmentOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="病情描述">
+        <el-form-item label="病情描述" prop="medicalCondition">
           <el-input type="textarea" v-model="patientForm.medicalCondition"></el-input>
         </el-form-item>
-        <el-form-item label="是否正在透析" v-if="patientForm.organNeeded === 1">
-          <el-select v-model="patientForm.isOnDialysis">
-            <el-option v-for="(label, value) in dialysisOptions" :key="value" :label="label" :value="Number(value)"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="透析类型" v-if="patientForm.organNeeded === 1 && patientForm.isOnDialysis === 1">
-          <el-select v-model="patientForm.dialysisType">
-            <el-option v-for="(label, value) in dialysisTypeOptions" :key="value" :label="label" :value="Number(value)"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="初次透析时间" v-if="patientForm.organNeeded === 1 && patientForm.isOnDialysis === 1">
-          <el-date-picker v-model="patientForm.firstDialysisDate" type="date" placeholder="选择日期"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="透析频率" v-if="patientForm.organNeeded === 1 && patientForm.isOnDialysis === 1">
-          <el-input v-model="patientForm.dialysisFrequency" placeholder="例如：每周3次"></el-input>
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-select v-model="patientForm.status">
+        <el-form-item label="状态" prop="status" required>
+          <el-select v-model="patientForm.status" placeholder="请选择状态">
             <el-option v-for="(label, value) in statusOptions" :key="value" :label="label" :value="Number(value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="附件上传">
+        <el-form-item label="附件上传" prop="fileName">
           <FileUpload v-model="patientForm.fileName"></FileUpload>
         </el-form-item>
+        <el-form-item label="是否正在透析" v-if="patientForm.organNeeded === 1" prop="isOnDialysis">
+          <el-select v-model="patientForm.isOnDialysis" placeholder="请选择是否透析">
+            <el-option v-for="(label, value) in dialysisOptions" :key="value" :label="label" :value="Number(value)"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item 
+          label="透析类型" 
+          v-if="patientForm.organNeeded === 1 && patientForm.isOnDialysis === 1" 
+          prop="dialysisType">
+          <el-select v-model="patientForm.dialysisType" placeholder="请选择透析类型">
+            <el-option v-for="(label, value) in dialysisTypeOptions" :key="value" :label="label" :value="Number(value)"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item 
+          label="初次透析时间" 
+          v-if="patientForm.organNeeded === 1 && patientForm.isOnDialysis === 1" 
+          prop="firstDialysisDate">
+          <el-date-picker v-model="patientForm.firstDialysisDate" type="date" placeholder="选择日期"></el-date-picker>
+        </el-form-item>
+        <el-form-item 
+          label="透析频率" 
+          v-if="patientForm.organNeeded === 1 && patientForm.isOnDialysis === 1" 
+          prop="dialysisFrequency">
+          <el-input v-model="patientForm.dialysisFrequency" placeholder="例如：每周3次"></el-input>
+        </el-form-item>
         <template v-if="patientForm.organNeeded === 1">
-          <el-form-item label="肌酐(umol/L)">
+          <el-form-item label="肌酐(umol/L)" prop="creatinine">
             <el-input v-model="patientForm.creatinine" type="number"></el-input>
           </el-form-item>
-          <el-form-item label="谷丙转氨酶(ALT,U/L)">
+          
+          <el-form-item label="谷丙转氨酶(ALT,U/L)" prop="alt">
             <el-input v-model="patientForm.alt" type="number"></el-input>
           </el-form-item>
-          <el-form-item label="谷草转氨酶(AST,U/L)">
+          
+          <el-form-item label="谷草转氨酶(AST,U/L)" prop="ast">
             <el-input v-model="patientForm.ast" type="number"></el-input>
           </el-form-item>
-          <el-form-item label="是否患有白血病">
-            <el-select v-model="patientForm.leukemia">
+          
+          <el-form-item label="是否患有白血病" prop="leukemia">
+            <el-select v-model="patientForm.leukemia" placeholder="请选择是否患有白血病">
               <el-option v-for="(label, value) in yesNoOptions" :key="value" :label="label" :value="Number(value)"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="过去一年内是否曾骨折">
-            <el-select v-model="patientForm.fractureLastYear">
+          
+          <el-form-item label="过去一年内是否曾骨折" prop="fractureLastYear">
+            <el-select v-model="patientForm.fractureLastYear" placeholder="请选择是否曾骨折">
               <el-option v-for="(label, value) in yesNoOptions" :key="value" :label="label" :value="Number(value)"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="是否患有血管性骨坏死">
-            <el-select v-model="patientForm.avascularNecrosis">
+          
+          <el-form-item label="是否患有血管性骨坏死" prop="avascularNecrosis">
+            <el-select v-model="patientForm.avascularNecrosis" placeholder="请选择是否患有血管性骨坏死">
               <el-option v-for="(label, value) in yesNoOptions" :key="value" :label="label" :value="Number(value)"></el-option>
             </el-select>
           </el-form-item>
@@ -348,6 +362,32 @@ import {getToken} from "@/utils/auth";
 
 export default {
   data() {
+    // 动态验证规则
+    const validateKidneyFields = (rule, value, callback) => {
+      if (this.patientForm.organNeeded === 1) {
+        if (value === undefined || value === null || value === '') {
+          callback(new Error('该字段为必填项'));
+        } else {
+          callback();
+        }
+      } else {
+        callback();
+      }
+    };
+
+    // 动态验证透析相关字段
+    const validateDialysisFields = (rule, value, callback) => {
+      if (this.patientForm.organNeeded === 1 && this.patientForm.isOnDialysis === 1) {
+        if (value === undefined || value === null || value === '') {
+          callback(new Error('该字段为必填项'));
+        } else {
+          callback();
+        }
+      } else {
+        callback();
+      }
+    };
+
     return {
       loading: false,
       patientList: [],
@@ -396,7 +436,58 @@ export default {
       isAdmin: false,
       userList: [],
       selectedUser: null,
-      yesNoOptions: {0: '否', 1: '是'}
+      yesNoOptions: {0: '否', 1: '是'},
+      rules: {
+        organNeeded: [
+          { required: true, message: '请选择所需器官', trigger: 'change' }
+        ],
+        bloodType: [
+          { required: true, message: '请选择血型', trigger: 'change' }
+        ],
+        emergencyStatus: [
+          { required: true, message: '请选择是否紧急', trigger: 'change' }
+        ],
+        status: [
+          { required: true, message: '请选择状态', trigger: 'change' }
+        ],
+        hbvInfected: [
+          { required: true, message: '请选择是否感染乙肝', trigger: 'change' }
+        ],
+        hcvInfected: [
+          { required: true, message: '请选择是否感染丙肝', trigger: 'change' }
+        ],
+        hivInfected: [
+          { required: true, message: '请选择是否感染艾滋病', trigger: 'change' }
+        ],
+        medicalStatus: [
+          { required: true, message: '请选择医疗状态', trigger: 'change' }
+        ],
+        selfAssessment: [
+          { required: true, message: '请选择自评状态', trigger: 'change' }
+        ],
+        // 肾移植特有字段的动态验证
+        isOnDialysis: [
+          { validator: validateKidneyFields, trigger: 'change' }
+        ],
+        dialysisType: [
+          { validator: validateDialysisFields, trigger: 'change' }
+        ],
+        firstDialysisDate: [
+          { validator: validateDialysisFields, trigger: 'change' }
+        ],
+        dialysisFrequency: [
+          { validator: validateDialysisFields, trigger: 'change' }
+        ],
+        leukemia: [
+          { validator: validateKidneyFields, trigger: 'change' }
+        ],
+        fractureLastYear: [
+          { validator: validateKidneyFields, trigger: 'change' }
+        ],
+        avascularNecrosis: [
+          { validator: validateKidneyFields, trigger: 'change' }
+        ]
+      }
     }
   },
   created() {
@@ -495,19 +586,25 @@ export default {
       this.editDialogVisible = true
     },
     handleSubmit() {
-      if (this.dialogTitle === '新增患者') {
-        addPatient(this.patientForm).then(() => {
-          this.$message.success('新增成功')
-          this.editDialogVisible = false
-          this.fetchPatients()
-        })
-      } else {
-        updatePatient(this.patientForm).then(() => {
-          this.$message.success('更新成功')
-          this.editDialogVisible = false
-          this.fetchPatients()
-        })
-      }
+      this.$refs.patientForm.validate((valid) => {
+        if (valid) {
+          if (this.dialogTitle === '新增患者') {
+            addPatient(this.patientForm).then(() => {
+              this.$message.success('新增成功')
+              this.editDialogVisible = false
+              this.fetchPatients()
+            })
+          } else {
+            updatePatient(this.patientForm).then(() => {
+              this.$message.success('更新成功')
+              this.editDialogVisible = false
+              this.fetchPatients()
+            })
+          }
+        } else {
+          return false
+        }
+      })
     },
     handleDelete(row) {
       this.$confirm('确认删除该患者信息吗？', '提示', {
@@ -602,6 +699,38 @@ export default {
     // 提交上传文件
     submitFileForm() {
       this.$refs.upload.submit();
+    }
+  },
+  watch: {
+    // 监听器用于在器官需求改变时重新验证表单
+    'patientForm.organNeeded': {
+      handler(newVal) {
+        // 当值改变时，重新验证相关字段
+        if (this.$refs.patientForm) {
+          this.$refs.patientForm.validateField([
+            'isOnDialysis',
+            'dialysisType',
+            'firstDialysisDate',
+            'dialysisFrequency',
+            'leukemia',
+            'fractureLastYear',
+            'avascularNecrosis'
+          ]);
+        }
+      }
+    },
+    // 监听器用于在透析状态改变时重新验证表单
+    'patientForm.isOnDialysis': {
+      handler(newVal) {
+        // 当值改变时，重新验证相关字段
+        if (this.$refs.patientForm) {
+          this.$refs.patientForm.validateField([
+            'dialysisType',
+            'firstDialysisDate',
+            'dialysisFrequency'
+          ]);
+        }
+      }
     }
   }
 }

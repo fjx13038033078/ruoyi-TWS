@@ -32,6 +32,8 @@ public interface PatientService {
      */
     int countEmergencyPatients();
 
+    int countPatients();
+
     /**
      * 根据组织需求统计患者数量
      *

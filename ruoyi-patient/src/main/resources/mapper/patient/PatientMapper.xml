@@ -65,6 +65,10 @@
         SELECT COUNT(*) FROM tws_patient WHERE emergency_status = 1
     </select>
 
+    <select id="countPatients" resultType="int">
+        SELECT COUNT(*) FROM tws_patient
+    </select>
+
     <!-- 统计按器官需求分类的患者人数 -->
     <select id="countPatientsByOrganNeeded" resultType="map">
         SELECT organ_needed AS organNeeded, COUNT(*) AS patientCount

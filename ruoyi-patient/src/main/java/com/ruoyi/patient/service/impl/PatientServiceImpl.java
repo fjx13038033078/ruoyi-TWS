@@ -75,6 +75,12 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public int countPatients() {
+        return patientMapper.countPatients();
+    }
+
+
+    @Override
     public Map<String, Integer> countPatientsByOrganNeeded() {
         return patientMapper.countPatientsByOrganNeeded();
     }

@@ -13,7 +13,7 @@
       <el-input v-model="form.emergencyContact" maxlength="11" />
     </el-form-item>
     <el-form-item label="身份证号" prop="idnumber">
-      <el-input v-model="form.idnumber" type="number" maxlength="50" />
+      <el-input v-model="form.idnumber" maxlength="18" />
     </el-form-item>
     <el-form-item label="年龄" prop="age">
       <el-input v-model="form.age" type="number" maxlength="50" />
@@ -44,6 +44,45 @@ export default {
     }
   },
   data() {
+    // 身份证号码验证函数
+    const validateIdNumber = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('身份证号码不能为空'));
+        return;
+      }
+      
+      // 验证是否为18位
+      if (value.length !== 18) {
+        callback(new Error('身份证号码必须为18位'));
+        return;
+      }
+
+      // 验证格式是否正确（前17位为数字，最后一位可以是数字或X）
+      const reg = /^[1-9]\d{5}(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}[\dXx]$/;
+      if (!reg.test(value)) {
+        callback(new Error('请输入正确的身份证号码'));
+        return;
+      }
+
+      // 验证校验位
+      const factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+      const parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2];
+      const code = value.substring(0, 17);
+      const last = value.substring(17, 18).toUpperCase();
+
+      let sum = 0;
+      for (let i = 0; i < 17; i++) {
+        sum += parseInt(code[i]) * factor[i];
+      }
+      
+      if (parity[sum % 11].toString() !== last) {
+        callback(new Error('身份证号码校验位错误'));
+        return;
+      }
+
+      callback();
+    };
+
     return {
       form: {},
       // 表单校验
@@ -74,6 +113,10 @@ export default {
             message: "请输入正确的手机号码",
             trigger: "blur"
           }
+        ],
+        idnumber: [
+          { required: true, message: "身份证号码不能为空", trigger: "blur" },
+          { validator: validateIdNumber, trigger: "blur" }
         ]
       }
     };
